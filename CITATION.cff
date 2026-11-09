@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use ArduStereo, please cite this software release."
+type: software
+title: ArduStereo
+authors:
+  - family-names: Zhu
+    given-names: Chengdong
+    affiliation: University of York
+version: 0.2.2
+date-released: 2026-11-09
+license: MIT
+repository-code: https://github.com/zhu-chengdong/ArduStereo
+url: https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.2.2

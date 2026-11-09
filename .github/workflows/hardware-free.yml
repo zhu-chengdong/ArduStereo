@@ -1,0 +1,31 @@
+name: Hardware-free checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  core:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cmake -S . -B build/core -DARDUSTEREO_BUILD_ROS=OFF -DARDUSTEREO_BUILD_OPENCV=OFF
+          cmake --build build/core --parallel 2
+          (cd build/core && ctest --output-on-failure)
+  ros-noetic-synthetic:
+    runs-on: ubuntu-22.04
+    container:
+      image: ros:noetic-perception-focal@sha256:ef5fdebeaa881604208c067f96d42b61331825309e559c093e24e9e89c7d3d2e
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        run: |
+          source /opt/ros/noetic/setup.bash
+          python3 tools/check_package.py
+          mkdir -p /tmp/ardustereo_ws/src
+          ln -s "$GITHUB_WORKSPACE" /tmp/ardustereo_ws/src/ardustereo
+          cd /tmp/ardustereo_ws
+          catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_EXECUTABLE=/usr/bin/python3
+          source devel/setup.bash
+          (cd build/ardustereo && ctest -R '^(core|diagnostics)_contracts$' --output-on-failure)
+          catkin_make run_tests_ardustereo
+          catkin_test_results build/test_results

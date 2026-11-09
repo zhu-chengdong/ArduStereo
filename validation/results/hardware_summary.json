@@ -1,0 +1,104 @@
+{
+  "version": "0.2.2",
+  "evidence_date": "2026-11-09",
+  "host": "Jetson Orin Nano8GB",
+  "os": "Ubuntu20.04 / L4T35.5.0 / kernel5.10.192-tegra",
+  "ros": "Noetic",
+  "opencv": "4.5.4",
+  "camera": "B0266 dualOV9281 / Camarray HAT",
+  "input": {
+    "fourcc": "GREY",
+    "width": 2560,
+    "height": 800,
+    "frame_rate_raw": 20,
+    "exposure_raw": 681,
+    "analogue_gain_raw": 100
+  },
+  "build_tests": {
+    "cpp_core_cases": 32,
+    "cpp_diagnostics_cases": 20,
+    "ros_methods": 13,
+    "file_cases": 9,
+    "windows_linux_file_cases_are_same_set": true
+  },
+  "real_snapshot_checks": {
+    "launch_windows_seconds": [
+      30,
+      15
+    ],
+    "successful_paired_snapshots": 3,
+    "scope": "previous short validation; not repeated in endurance run"
+  },
+  "runs": {
+    "long": {
+      "valid_seconds": 3600.0,
+      "received_composite": 71822,
+      "callback_fps": 19.95062732958808,
+      "max_callback_gap_seconds": 0.151070901,
+      "capture_cpu_mean_one_core_percent": 17.917005189296855,
+      "capture_rss_mean_bytes": 51343360,
+      "metadata_cpu_mean_one_core_percent": 0.13806564890755393,
+      "metadata_rss_mean_bytes": 45680710.78341014,
+      "measurement_read_faults": {
+        "empty_reads": 0,
+        "frame_rejections": 0,
+        "read_exceptions": 0
+      },
+      "diagnostic_warning_samples": 20,
+      "common1s_grid_low_windows": 20,
+      "common1s_grid_min5s_fps": 16.8,
+      "capture_shutdown_seconds": 1.5672966900001484,
+      "shutdown_exit_code": 0,
+      "forced_cleanup": false,
+      "owned_survivors": []
+    },
+    "new": {
+      "valid_seconds": 600.0,
+      "received_composite": 11983,
+      "callback_fps": 19.97216567789071,
+      "max_callback_gap_seconds": 0.102695014,
+      "capture_cpu_mean_one_core_percent": 18.171465476045253,
+      "capture_rss_mean_bytes": 54360496.27681661,
+      "metadata_cpu_mean_one_core_percent": 0.14175172507283199,
+      "metadata_rss_mean_bytes": 45309952,
+      "measurement_read_faults": {
+        "empty_reads": 0,
+        "frame_rejections": 0,
+        "read_exceptions": 0
+      },
+      "diagnostic_warning_samples": 0,
+      "common1s_grid_low_windows": 0,
+      "common1s_grid_min5s_fps": 18.0,
+      "capture_shutdown_seconds": 1.4668466789989907,
+      "shutdown_exit_code": 0,
+      "forced_cleanup": false,
+      "owned_survivors": []
+    },
+    "old_clean": {
+      "valid_seconds": 600.0,
+      "received_composite": 11956,
+      "callback_fps": 19.92698495091655,
+      "max_callback_gap_seconds": 0.151141495,
+      "capture_cpu_mean_one_core_percent": 10.686447510444514,
+      "capture_rss_mean_bytes": 44311235.42659758,
+      "metadata_cpu_mean_one_core_percent": null,
+      "metadata_rss_mean_bytes": null,
+      "measurement_read_faults": "not instrumented by legacy node",
+      "diagnostic_warning_samples": null,
+      "common1s_grid_low_windows": 10,
+      "common1s_grid_min5s_fps": 15.2,
+      "capture_shutdown_seconds": 0.21414574300069944,
+      "shutdown_exit_code": 0,
+      "forced_cleanup": false,
+      "owned_survivors": []
+    }
+  },
+  "qualifications": [
+    "one device; one final paired engineering comparison",
+    "different outputs and compiler options; deployment costs only",
+    "legacy GREY-only adapter adds one FourCC line; original Y16 is not comparable",
+    "strict no-WARN long-run criterion failed",
+    "hardware/driver/scheduling cause not isolated; no sensor sequence/exposure timestamps",
+    "no independent-user reproduction or SLAM-accuracy validation"
+  ]
+}

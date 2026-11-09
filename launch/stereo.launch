@@ -1,0 +1,19 @@
+<launch>
+  <arg name="config" default="$(find ardustereo)/config/b0266.yaml"/>
+  <arg name="camera_ns" default="camera"/>
+  <arg name="session_tools" default="true"/>
+  <arg name="session_root" default="$(env HOME)/ardustereo_sessions"/>
+  <arg name="snapshot_timeout" default="3.0"/>
+  <group ns="$(arg camera_ns)">
+    <node pkg="ardustereo" type="ardustereo_node" name="ardustereo" output="screen" required="true">
+      <rosparam command="load" file="$(arg config)"/>
+    </node>
+    <node if="$(arg session_tools)" pkg="ardustereo" type="experiment_tools.py" name="experiment_tools" output="screen">
+      <param name="capture_node" value="ardustereo"/>
+      <param name="config_path" value="$(arg config)"/>
+      <param name="package_dir" value="$(find ardustereo)"/>
+      <param name="session_root" value="$(arg session_root)"/>
+      <param name="snapshot_timeout" value="$(arg snapshot_timeout)"/>
+    </node>
+  </group>
+</launch>

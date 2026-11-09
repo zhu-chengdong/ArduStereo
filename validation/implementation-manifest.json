@@ -1,0 +1,211 @@
+{
+  "version": "0.2.2",
+  "scope": "unchanged implementation/build/test/configuration files from the tested freeze; Markdown release documentation refreshed",
+  "files": [
+    {
+      "path": ".github/workflows/hardware-free.yml",
+      "bytes": 1199,
+      "sha256": "272fe272229d608d31560c798395ad49163b3eb6f7a9f948774e716dcb7b7bfd"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 63,
+      "sha256": "ceec25888a6874cd361bad6c686a92010659663eba130d1bb8eb13d16ff9b7b5"
+    },
+    {
+      "path": "cmake/ArduStereoConfig.cmake.in",
+      "bytes": 263,
+      "sha256": "5b41d6edd11a59981a1c5d8ac454cfd95e15c791ddb0c26f8226af609e6f21f2"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 5456,
+      "sha256": "4c01b9dceefa93646411248ffebdc7aa4a2f2643038c322b909bd549c69728dd"
+    },
+    {
+      "path": "config/b0266.yaml",
+      "bytes": 868,
+      "sha256": "baf2462d61cbea24b39089762ea90f34a54d5a3deaf0aa8d7f2b23108613946e"
+    },
+    {
+      "path": "config/synthetic.yaml",
+      "bytes": 663,
+      "sha256": "1850902e8ebcb1e266c5ca1e62d5909c865f761d8ea5499d76c6fe5a1a26943c"
+    },
+    {
+      "path": "include/ardustereo/capture.hpp",
+      "bytes": 1410,
+      "sha256": "6494455ab88eca7dcb47833b8b68434234536e6ee7b6f99ad3c47f50e8abaf69"
+    },
+    {
+      "path": "include/ardustereo/config.hpp",
+      "bytes": 1077,
+      "sha256": "f32eda164e92510db453eb7f8e010110d9a78a33182fdfa9682ea2d17d613187"
+    },
+    {
+      "path": "include/ardustereo/diagnostics.hpp",
+      "bytes": 2938,
+      "sha256": "b729433b804a156ed1568346c34c3baeea512067b0978a212cb6b746bc1ffc67"
+    },
+    {
+      "path": "include/ardustereo/frame_ops.hpp",
+      "bytes": 1069,
+      "sha256": "e5fd769be2cd434d061de21f64e6680befc944625e47565d5653b852a9f602dc"
+    },
+    {
+      "path": "include/ardustereo/opencv_capture.hpp",
+      "bytes": 156,
+      "sha256": "511ac98437f8d32e93b390e878226625efd24a76971e8a7855072641bb8e8539"
+    },
+    {
+      "path": "launch/stereo.launch",
+      "bytes": 943,
+      "sha256": "d2292be277c6897fce56e5a64c395406c381d513a8b1757c72e2c41beeb02212"
+    },
+    {
+      "path": "launch/synthetic.launch",
+      "bytes": 271,
+      "sha256": "e543192940d0d27b0c67b30258c564de582bddbc82ac8ff22d3e7cddbcdb723f"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1087,
+      "sha256": "d02b38aa4d1169b46ef85d4618a5c1848a125a1b890a23633aec9badcacbb1bd"
+    },
+    {
+      "path": "package.xml",
+      "bytes": 679,
+      "sha256": "fabe013bd27e2d9082f9d5703fb6ccb84cbab4a7347f5e1cfbdb2ee45060b468"
+    },
+    {
+      "path": "scripts/experiment_tools.py",
+      "bytes": 7891,
+      "sha256": "bc3c6a3b18761947df1a8b84352416faea9c4c37f5ad5c30608618b93b50d6f3"
+    },
+    {
+      "path": "scripts/session_store.py",
+      "bytes": 7743,
+      "sha256": "5cd130695148024b7ab560edf4403661fec301bd7d5dade57779237033273701"
+    },
+    {
+      "path": "src/ardustereo_node.cpp",
+      "bytes": 216,
+      "sha256": "27dd267a723e8f6e1d21bed3a35218b6ad14225f4f56986f68a0551b9b74be7b"
+    },
+    {
+      "path": "src/capture.cpp",
+      "bytes": 3765,
+      "sha256": "26ec0c364485fa0bcc8698761de43d9719a30d61cf8c113ce4f3214d9c4ba0e4"
+    },
+    {
+      "path": "src/config.cpp",
+      "bytes": 3824,
+      "sha256": "91e22cd0aed9afe3833c5f5798cfd52d603c7f15de89883370ef1aade1903499"
+    },
+    {
+      "path": "src/diagnostics.cpp",
+      "bytes": 8353,
+      "sha256": "c09d8466bef2091356259cc814d4491a88ea345d1c90cb1b72d9de89dba69701"
+    },
+    {
+      "path": "src/frame_ops.cpp",
+      "bytes": 3719,
+      "sha256": "3972cd4dfeb7b302dc7186d0c8a0d56bbda5d3621b9752ce7926fe2cb11a076e"
+    },
+    {
+      "path": "src/opencv_capture.cpp",
+      "bytes": 5468,
+      "sha256": "922ad9123faa4cf79b464bb6c1d5ccf1d987ff9ad3ea4841c9ea0704831c70e3"
+    },
+    {
+      "path": "src/ros_diagnostics.hpp",
+      "bytes": 3832,
+      "sha256": "f34e1b8cc8a50fd437f424059a46ab080e6d73dfec668499cec81b9e29b34c94"
+    },
+    {
+      "path": "src/ros_node.cpp",
+      "bytes": 10961,
+      "sha256": "02d1f1472785b9e47b772bb4f15326063c26be11204a897642561e83cb64e57c"
+    },
+    {
+      "path": "src/ros_node.hpp",
+      "bytes": 322,
+      "sha256": "92ed4e07207bcb25c10094c4941e96a28a2145e89fc00bad1bfea200eabc5d21"
+    },
+    {
+      "path": "src/v4l2_controls.cpp",
+      "bytes": 3925,
+      "sha256": "dfecaa5f66181d132769eb8fc41493afe51c2a3f44a0dbe8e45ab04401b0961d"
+    },
+    {
+      "path": "src/v4l2_controls.hpp",
+      "bytes": 383,
+      "sha256": "9381a18272fa55b44c27a40763f44b39baaa13c73d73453538133c67e47016bb"
+    },
+    {
+      "path": "test/diagnostics.test",
+      "bytes": 163,
+      "sha256": "4ccf3fb26f3853647c07c3b7f5ab5098889394e0e56066b084a6e0d676ea7cb1"
+    },
+    {
+      "path": "test/experiment_tools.test",
+      "bytes": 169,
+      "sha256": "95969dd10db2aef6a52e96f2de851ddb7a2d26aa2a70f49d2ebbd5355b7a1bab"
+    },
+    {
+      "path": "test/fixtures/synthetic_left.yaml",
+      "bytes": 457,
+      "sha256": "52f23a0de057746ec724a61847bca5fbf66e537c9b0d2e7858a523b5a1524fa0"
+    },
+    {
+      "path": "test/fixtures/synthetic_right.yaml",
+      "bytes": 461,
+      "sha256": "5c74d8e1ffca33b5fa9fca3bf6332691374813aceb7365947665e2b456d9dde0"
+    },
+    {
+      "path": "test/stereo_interface.test",
+      "bytes": 1061,
+      "sha256": "60cd4a2782229022a52c9f9a5951d2775a8d6049dce208aad35a119b54b311a8"
+    },
+    {
+      "path": "test/test_core.cpp",
+      "bytes": 13155,
+      "sha256": "78723cff53ff9cd6eb0f1a7be60ea21ddabc2358ce15a5a2fffd58358ebcc3e5"
+    },
+    {
+      "path": "test/test_diagnostics.cpp",
+      "bytes": 10372,
+      "sha256": "4ea2df4188e2506e4acc02ca6bff63d7e4158559b30bdf1f6c0a2e90235cd32f"
+    },
+    {
+      "path": "test/test_experiment_tools.py",
+      "bytes": 9770,
+      "sha256": "95472564647715eb21ab4caebf693c6472624269fd09f14727bde7a26f59743a"
+    },
+    {
+      "path": "test/test_fault_node.cpp",
+      "bytes": 1919,
+      "sha256": "8688f969b6f544c86a27fc75388a1fa2f1c24bf2de1395a24371d7ef1976ae62"
+    },
+    {
+      "path": "test/test_ros_diagnostics.py",
+      "bytes": 7736,
+      "sha256": "0cdc013f9b079f3ca09e975d5910eb6c7f6f9564777c38b7c9248d416098d68b"
+    },
+    {
+      "path": "test/test_ros_interface.py",
+      "bytes": 6412,
+      "sha256": "c0a7418126313fda58aac445c121aff1ae02c497e88540dba53e5b0eefefc24c"
+    },
+    {
+      "path": "test/test_session_store.py",
+      "bytes": 6112,
+      "sha256": "48f2f44660ea4c6069121c292ca28885dd6dba4d36804139fe2a0f5808b81ff8"
+    },
+    {
+      "path": "tools/check_package.py",
+      "bytes": 5181,
+      "sha256": "a826c6013aab7a020faf977707f7ddc39d1e7603b430d74a9e7112d925339bbc"
+    }
+  ]
+}

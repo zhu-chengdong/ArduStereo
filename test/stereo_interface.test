@@ -1,0 +1,21 @@
+<launch>
+  <param name="use_sim_time" value="false"/>
+  <include file="$(find ardustereo)/launch/synthetic.launch">
+    <arg name="camera_ns" value="test_camera"/>
+  </include>
+  <group ns="silent_camera">
+    <node pkg="ardustereo" type="ardustereo_node" name="ardustereo" output="screen">
+      <rosparam command="load" file="$(find ardustereo)/config/synthetic.yaml"/>
+      <param name="publish_composite" value="false"/>
+    </node>
+  </group>
+  <group ns="calibrated_camera">
+    <node pkg="ardustereo" type="ardustereo_node" name="ardustereo" output="screen">
+      <rosparam command="load" file="$(find ardustereo)/config/synthetic.yaml"/>
+      <param name="require_calibration" value="true"/>
+      <param name="left_camera_info_url" value="file://$(find ardustereo)/test/fixtures/synthetic_left.yaml"/>
+      <param name="right_camera_info_url" value="file://$(find ardustereo)/test/fixtures/synthetic_right.yaml"/>
+    </node>
+  </group>
+  <test test-name="stereo_interface" pkg="ardustereo" type="test_ros_interface.py" time-limit="70"/>
+</launch>

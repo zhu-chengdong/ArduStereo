@@ -1,0 +1,7 @@
+<launch>
+  <arg name="camera_ns" default="synthetic_camera"/>
+  <include file="$(find ardustereo)/launch/stereo.launch">
+    <arg name="config" value="$(find ardustereo)/config/synthetic.yaml"/>
+    <arg name="camera_ns" value="$(arg camera_ns)"/>
+  </include>
+</launch>

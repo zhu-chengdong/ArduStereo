@@ -1,0 +1,4 @@
+<launch>
+  <param name="use_sim_time" value="false"/>
+  <test test-name="diagnostics" pkg="ardustereo" type="test_ros_diagnostics.py" time-limit="100"/>
+</launch>

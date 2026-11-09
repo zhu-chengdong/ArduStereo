@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+find_dependency(Threads)
+if(@ARDUSTEREO_BUILD_OPENCV@)
+  find_dependency(OpenCV 4 COMPONENTS core videoio)
+endif()
+include("${CMAKE_CURRENT_LIST_DIR}/ArduStereoTargets.cmake")
+check_required_components(ArduStereo)

@@ -1,0 +1,4 @@
+<launch>
+  <param name="use_sim_time" value="false"/>
+  <test test-name="experiment_tools" pkg="ardustereo" type="test_experiment_tools.py" time-limit="100"/>
+</launch>
