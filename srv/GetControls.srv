@@ -1,0 +1,10 @@
+---
+bool success
+bool simulated
+int32 frame_rate
+int32 exposure
+int32 analogue_gain
+int32[3] minimum
+int32[3] maximum
+int32[3] step
+string message

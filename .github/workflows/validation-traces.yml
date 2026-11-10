@@ -1,4 +1,4 @@
-name: Published timing evidence
+name: Published GUI numeric evidence
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - run: python3 validation/verify_timing.py
+      - run: python3 validation/gui-fix1/verify_results.py

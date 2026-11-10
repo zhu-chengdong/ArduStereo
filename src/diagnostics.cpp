@@ -114,11 +114,19 @@ void RuntimeDiagnostics::stop() {
   terminal_ = now_locked(); terminal_state_ = true;
   values_.state = "stopped"; values_.level = 0; values_.read_in_progress = false;
 }
+void RuntimeDiagnostics::reset_rate_reference(double fps) {
+  if (!std::isfinite(fps) || fps <= 0 || fps > 10000)
+    throw std::invalid_argument("Invalid runtime FPS reference");
+  std::lock_guard<std::mutex> lock(mutex_); require_running();
+  ready_ = now_locked(); config_.expected_fps = fps;
+  captures_ = Window{}; publications_ = Window{};
+}
 DiagnosticSnapshot RuntimeDiagnostics::snapshot() {
   std::lock_guard<std::mutex> lock(mutex_);
   const auto observed = now_locked();
   const auto now = terminal_state_ ? terminal_ : observed;
   auto out = values_;
+  out.expected_fps_reference = config_.expected_fps;
   out.uptime_seconds = static_cast<double>(now - started_) / billion;
   if (has_frame_) out.last_frame_age_seconds = static_cast<double>(now - last_frame_) / billion;
   if (is_ready_) {

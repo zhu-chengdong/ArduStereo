@@ -65,7 +65,7 @@ class RosDiagnostics {
     value(status, "subscriber_received_count", "unavailable");
     value(status, "rate_clock", "steady_monotonic");
     value(status, "image_timestamp", "host_receive_not_sensor_exposure");
-    value(status, "expected_fps_reference", config_.expected_fps);
+    value(status, "expected_fps_reference", s.expected_fps_reference);
     value(status, "window_seconds_requested", config_.window_seconds);
     value(status, "frame_timeout_seconds", config_.stale_after_seconds);
     array.status.push_back(status); publisher_.publish(array);

@@ -1,6 +1,9 @@
 #include "ros_node.hpp"
 #include "ros_diagnostics.hpp"
 #include "ardustereo/opencv_capture.hpp"
+#include "ardustereo/controls.hpp"
+#include <ardustereo/GetControls.h>
+#include <ardustereo/SetControls.h>
 
 #include <camera_info_manager/camera_info_manager.h>
 #include <ros/ros.h>
@@ -169,7 +172,7 @@ int ardustereo::run_ros_node(ros::NodeHandle& nh, ros::NodeHandle& private_nh,
   std::unique_ptr<RosDiagnostics> diagnostics;
   std::unique_ptr<MonitoredCapture> session;
   try {
-    const auto c = load_config(private_nh);
+    auto c = load_config(private_nh);
     monitor.reset(new RuntimeDiagnostics(c.diagnostics));
     diagnostics.reset(new RosDiagnostics(nh, *monitor, c.diagnostics_period,
         c.source == "synthetic" ? "synthetic_no_camera" : c.capture.device, c.diagnostics));
@@ -192,7 +195,54 @@ int ardustereo::run_ros_node(ros::NodeHandle& nh, ros::NodeHandle& private_nh,
     session->open(c.capture);
     ROS_INFO_STREAM(session->description());
     ROS_INFO("Timestamp: host system time immediately after source read, not sensor exposure time");
-    ros::WallRate synthetic_rate(c.synthetic_fps);
+    std::unique_ptr<ros::WallRate> synthetic_rate(new ros::WallRate(c.synthetic_fps));
+    auto simulated_controls = c.source == "synthetic" ? make_simulated_controls() : nullptr;
+    if (simulated_controls) {
+      auto initial = read_controls(*simulated_controls).values;
+      initial[0] = static_cast<int>(c.synthetic_fps);
+      change_controls(*simulated_controls, initial);
+    }
+    const auto fill_controls = [&](auto& response, const ControlState& state) {
+      response.success = true; response.simulated = c.source == "synthetic";
+      response.frame_rate = state.values[0]; response.exposure = state.values[1];
+      response.analogue_gain = state.values[2];
+      for (unsigned i = 0; i < 3; ++i) {
+        response.minimum[i] = state.ranges[i].minimum;
+        response.maximum[i] = state.ranges[i].maximum; response.step[i] = state.ranges[i].step;
+      }
+      response.message = response.simulated ? "SIMULATED controls; exposure/gain have no physical effect" : "Driver controls read back";
+    };
+    auto get_controls = nh.advertiseService<GetControls::Request, GetControls::Response>("get_controls",
+        [&](GetControls::Request&, GetControls::Response& response) {
+          response.simulated = c.source == "synthetic";
+          try {
+            auto device = simulated_controls ? nullptr : make_linux_controls(c.capture.device);
+            fill_controls(response, read_controls(simulated_controls ? *simulated_controls : *device));
+          } catch (const std::exception& error) { response.success = false; response.message = error.what(); }
+          return true;
+        });
+    auto set_controls = nh.advertiseService<SetControls::Request, SetControls::Response>("set_controls",
+        [&](SetControls::Request& request, SetControls::Response& response) {
+          response.simulated = c.source == "synthetic";
+          try {
+            if (request.frame_rate <= 0) throw std::invalid_argument("frame_rate must be positive");
+            auto device = simulated_controls ? nullptr : make_linux_controls(c.capture.device);
+            auto& transport = simulated_controls ? *simulated_controls : *device;
+            const auto before = read_controls(transport);
+            const auto after = change_controls(transport, {{request.frame_rate, request.exposure, request.analogue_gain}});
+            if (before.values[0] != after.values[0]) {
+              monitor->reset_rate_reference(after.values[0]);
+              if (simulated_controls) synthetic_rate.reset(new ros::WallRate(after.values[0]));
+            }
+            for (const auto& item : std::array<std::pair<const char*, int>, 3>{{
+                {"frame_rate", after.values[0]}, {"exposure", after.values[1]}, {"analogue_gain", after.values[2]}}})
+              if (!simulated_controls) private_nh.setParam(item.first, item.second);
+            fill_controls(response, after);
+            ROS_INFO_STREAM("Runtime controls verified; simulated=" << static_cast<bool>(response.simulated) << " frame_rate=" << after.values[0]
+                            << " exposure=" << after.values[1] << " analogue_gain=" << after.values[2]);
+          } catch (const std::exception& error) { response.success = false; response.message = error.what(); }
+          return true;
+        });
     while (ros::ok()) {
       ardustereo::CapturedFrame frame;
       if (!session->read(frame)) {
@@ -218,7 +268,7 @@ int ardustereo::run_ros_node(ros::NodeHandle& nh, ros::NodeHandle& private_nh,
         composite_pub.publish(image_message(frame.image, stamp, c.composite_frame_id));
       monitor->pair_published(c.publish_composite);
       ros::spinOnce();
-      if (c.source == "synthetic") synthetic_rate.sleep();
+      if (c.source == "synthetic") synthetic_rate->sleep();
     }
     session->close();
     diagnostics->finish();

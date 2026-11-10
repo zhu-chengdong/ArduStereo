@@ -27,6 +27,7 @@ struct DiagnosticSnapshot {
   std::uint64_t frame_rejections = 0, read_exceptions = 0;
   double uptime_seconds = 0.0, last_frame_age_seconds = -1.0;
   double capture_fps = 0.0, publication_fps = 0.0;
+  double expected_fps_reference = 0.0;
   double capture_window_seconds = 0.0, publication_window_seconds = 0.0;
   bool read_in_progress = false, window_limited = false;
 };
@@ -48,6 +49,7 @@ class RuntimeDiagnostics {
   void pair_published(bool composite);
   void fail(const std::string& stage, const std::string& message);
   void stop();
+  void reset_rate_reference(double expected_fps);
   DiagnosticSnapshot snapshot();
  private:
   struct Window {

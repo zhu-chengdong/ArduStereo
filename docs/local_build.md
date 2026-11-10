@@ -1,16 +1,27 @@
-# Reproducible hardware-free checks
+# Hardware-free build and checks
 
-The core has no ROS or OpenCV dependency. With an existing C++14/CMake toolchain:
+These commands are for a separate local workspace with existing dependencies. They do not access a camera. Simulation and model results must remain separate from real camera evidence.
+
+Core-only C++ checks:
 
 ```bash
 cmake -S . -B build/core -DARDUSTEREO_BUILD_ROS=OFF -DARDUSTEREO_BUILD_OPENCV=OFF
 cmake --build build/core --parallel 2
 ctest --test-dir build/core --output-on-failure
-python3 test/test_session_store.py
-python3 validation/verify_timing.py
 ```
 
-For the full Noetic package in an existing catkin workspace:
+Python/static/numeric checks, with existing PyYAML:
+
+```bash
+python3 tools/check_package.py
+python3 test/test_session_store.py
+python3 test/test_viewer.py
+python3 validation/gui-fix1/verify_results.py
+```
+
+POSIX-specific process-lifecycle cases skip on Windows. Do not add duplicate platform runs as distinct test cases. Linux startup-control tests wrap V4L2 calls, not real devices.
+
+In an existing Noetic catkin workspace:
 
 ```bash
 source /opt/ros/noetic/setup.bash
@@ -20,6 +31,6 @@ catkin_make run_tests_ardustereo
 catkin_test_results build/test_results
 ```
 
-Static checks are `python3 tools/check_package.py`. A camera-free ROS demonstration is `roslaunch ardustereo stereo.launch config:=$(rospack find ardustereo)/config/synthetic.yaml`. That profile requests no hardware controls and is explicitly marked synthetic. Do not substitute it for actual camera validation.
+ROS tests use synthetic inputs and injected faults. `roslaunch --dump-params` or `--nodes` can inspect a launch without starting capture. Actual camera behavior is reported separately in [hardware validation](../validation/README.md).
 
-Existing author-run tests passed in an isolated x86_64 Ubuntu20.04/Noetic environment using OpenCV4.2.0 and on the target aarch64 environment using OpenCV4.5.4. Counts and scope are in [validation](validation.md). CI uses the pinned image in the workflow file. A future build/CI result is separate evidence from those archived runs.
+The source GUI candidate previously passed local x86_64 model/synthetic tests and target ARM build/tests. The release CI reruns hardware-free checks for this public commit; its result must be checked separately and is not proof of camera compatibility. Historical 0.2.0 and0.2.2 build details remain at the historical release rather than being presented as this candidate's new results.

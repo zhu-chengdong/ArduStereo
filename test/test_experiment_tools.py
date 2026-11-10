@@ -192,6 +192,9 @@ class ToolsContract(unittest.TestCase):
 
     def test_record_path_failure_does_not_stop_capture(self):
         run = self.start(root_is_file=True)
+        # Observe the intended initialization failure before testing capture or
+        # tearing down; early SIGINT during rospy import is a different scenario.
+        self.wait(lambda: 'Experiment tools stopped:' in (run.root / 'process.log').read_text(), seconds=10)
         a = rospy.wait_for_message(run.ns + '/left/image_raw', Image, timeout=10)
         b = rospy.wait_for_message(run.ns + '/left/image_raw', Image, timeout=5)
         self.assertLess(a.header.stamp.to_nsec(), b.header.stamp.to_nsec())

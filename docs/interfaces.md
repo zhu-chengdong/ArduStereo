@@ -1,3 +1,7 @@
+# Current GUI and ROS interfaces
+
+The current candidate adds viewer-owned lifecycle and `/camera/get_controls`/`set_controls`; see [viewer](viewer.md). The snapshot service remains `/camera/save_snapshot`. Shared output contracts below apply; historical tests must not be interpreted as new hardware evidence.
+
 # Image, parameter and error contracts
 
 ## Configuration
@@ -76,10 +80,8 @@ hardware/backend acceptance item. No automatic reconnect is promised.
 
 ## Runtime diagnostics
 
-This release provides standard `/diagnostics` output. Exact metrics, window
+The 0.2.0 snapshot adds standard `/diagnostics` output. Exact metrics, window
 definitions, thresholds and shutdown limitations are specified in
 [diagnostics](diagnostics.md). `diagnostic_expected_fps` is a monitoring reference
 only. It does not request a camera frame rate. The separate `frame_rate`
 parameter applies the actual driver control.
-
-The optional companion service and files are specified in [experiment records](experiment_records.md).

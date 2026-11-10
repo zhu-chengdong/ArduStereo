@@ -1,0 +1,281 @@
+{
+  "candidate": "0.3.0-startup-init-fix1",
+  "node_sha256": "67220166c0622938bc04eeacc0ae8537a2de840466eb8d152189fdd96bb4d9b8",
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 6855,
+      "sha256": "d2b92653e900a18e843242fd684ea8385b9869b0134d391a94b2f3c7775240b4"
+    },
+    {
+      "path": "package.xml",
+      "bytes": 816,
+      "sha256": "d1226c1a4bea128ed77bd95d2ac9ddee50ec1e0bae2f97e1c1655c6a36d5e0bb"
+    },
+    {
+      "path": "cmake/ArduStereoConfig.cmake.in",
+      "bytes": 263,
+      "sha256": "5b41d6edd11a59981a1c5d8ac454cfd95e15c791ddb0c26f8226af609e6f21f2"
+    },
+    {
+      "path": "config/b0266.yaml",
+      "bytes": 868,
+      "sha256": "baf2462d61cbea24b39089762ea90f34a54d5a3deaf0aa8d7f2b23108613946e"
+    },
+    {
+      "path": "config/synthetic.yaml",
+      "bytes": 663,
+      "sha256": "1850902e8ebcb1e266c5ca1e62d5909c865f761d8ea5499d76c6fe5a1a26943c"
+    },
+    {
+      "path": "config/viewer_synthetic.yaml",
+      "bytes": 647,
+      "sha256": "0b2b8258d9f01191b76e45b6ac36521098d76e7dcd169bae8fdd2b90c0a65c15"
+    },
+    {
+      "path": "launch/stereo.launch",
+      "bytes": 943,
+      "sha256": "d2292be277c6897fce56e5a64c395406c381d513a8b1757c72e2c41beeb02212"
+    },
+    {
+      "path": "launch/synthetic.launch",
+      "bytes": 271,
+      "sha256": "e543192940d0d27b0c67b30258c564de582bddbc82ac8ff22d3e7cddbcdb723f"
+    },
+    {
+      "path": "launch/viewer.launch",
+      "bytes": 473,
+      "sha256": "e7efe9f5aa6a33c430bfea563eed1f08be9e625572a951060a3ff87a76e7466c"
+    },
+    {
+      "path": "scripts/experiment_tools.py",
+      "bytes": 7891,
+      "sha256": "bc3c6a3b18761947df1a8b84352416faea9c4c37f5ad5c30608618b93b50d6f3"
+    },
+    {
+      "path": "scripts/session_store.py",
+      "bytes": 7743,
+      "sha256": "5cd130695148024b7ab560edf4403661fec301bd7d5dade57779237033273701"
+    },
+    {
+      "path": "scripts/viewer.py",
+      "bytes": 6050,
+      "sha256": "edc78c7ff1cfa0416dacff8be2669324e5bab2e111ce3cd76173dc77358dce2b"
+    },
+    {
+      "path": "scripts/viewer_core.py",
+      "bytes": 18791,
+      "sha256": "c15c83f7377c324f6b7d2643b9268efa8ccbee7b08fbd7f54af6bf8636f0d1c6"
+    },
+    {
+      "path": "scripts/viewer_ros.py",
+      "bytes": 3427,
+      "sha256": "e1cca20c35e2acd81166a4ca071bfd49d5265361f707bb9df8641ed10f4cfca4"
+    },
+    {
+      "path": "src/ardustereo_node.cpp",
+      "bytes": 216,
+      "sha256": "27dd267a723e8f6e1d21bed3a35218b6ad14225f4f56986f68a0551b9b74be7b"
+    },
+    {
+      "path": "src/capture.cpp",
+      "bytes": 3765,
+      "sha256": "26ec0c364485fa0bcc8698761de43d9719a30d61cf8c113ce4f3214d9c4ba0e4"
+    },
+    {
+      "path": "src/config.cpp",
+      "bytes": 3824,
+      "sha256": "91e22cd0aed9afe3833c5f5798cfd52d603c7f15de89883370ef1aade1903499"
+    },
+    {
+      "path": "src/controls.cpp",
+      "bytes": 2099,
+      "sha256": "15700cfa3a7781a57666659bcc4eab1ed36f06afaae52a7d9746a108a43026bd"
+    },
+    {
+      "path": "src/diagnostics.cpp",
+      "bytes": 8754,
+      "sha256": "53f82dd109be942112251c28c41e731c501317cc59584e30ee3cfd36c1d535a5"
+    },
+    {
+      "path": "src/frame_ops.cpp",
+      "bytes": 3719,
+      "sha256": "3972cd4dfeb7b302dc7186d0c8a0d56bbda5d3621b9752ce7926fe2cb11a076e"
+    },
+    {
+      "path": "src/opencv_capture.cpp",
+      "bytes": 5468,
+      "sha256": "922ad9123faa4cf79b464bb6c1d5ccf1d987ff9ad3ea4841c9ea0704831c70e3"
+    },
+    {
+      "path": "src/ros_diagnostics.hpp",
+      "bytes": 3836,
+      "sha256": "1751a0db406592ce7ae38c75d57291587b1f8000c5de9ce1579c2bf1027819a7"
+    },
+    {
+      "path": "src/ros_node.cpp",
+      "bytes": 14341,
+      "sha256": "0111419581fe48c95c8b495426d1f6bd083ad0b25c3b60f181953860080d3d03"
+    },
+    {
+      "path": "src/ros_node.hpp",
+      "bytes": 322,
+      "sha256": "92ed4e07207bcb25c10094c4941e96a28a2145e89fc00bad1bfea200eabc5d21"
+    },
+    {
+      "path": "src/runtime_controls.cpp",
+      "bytes": 2834,
+      "sha256": "601a64ab86f3f3bc0ef41b33637b524b93e6737e6cdeea87af7a7cb9baa05838"
+    },
+    {
+      "path": "src/startup_controls.hpp",
+      "bytes": 3158,
+      "sha256": "ec42453f5b2f0614f4b3e4a3f23c52e8aa6661da0e626d62a32aab58d666e0c4"
+    },
+    {
+      "path": "src/v4l2_controls.cpp",
+      "bytes": 888,
+      "sha256": "68505dd75edf04e1f9af30e003d5836d177540224f9742454851038b2991cf95"
+    },
+    {
+      "path": "src/v4l2_controls.hpp",
+      "bytes": 383,
+      "sha256": "9381a18272fa55b44c27a40763f44b39baaa13c73d73453538133c67e47016bb"
+    },
+    {
+      "path": "srv/GetControls.srv",
+      "bytes": 147,
+      "sha256": "2c887fb1cf433d032eac7783e8c229bbe108921c49c0f60cea7eb8b255951985"
+    },
+    {
+      "path": "srv/SetControls.srv",
+      "bytes": 199,
+      "sha256": "4e138c57381ea26385ad7df07fbe767c8cf2786d0dfaed4d2fea2d678273b942"
+    },
+    {
+      "path": "test/diagnostics.test",
+      "bytes": 163,
+      "sha256": "4ccf3fb26f3853647c07c3b7f5ab5098889394e0e56066b084a6e0d676ea7cb1"
+    },
+    {
+      "path": "test/experiment_tools.test",
+      "bytes": 169,
+      "sha256": "95969dd10db2aef6a52e96f2de851ddb7a2d26aa2a70f49d2ebbd5355b7a1bab"
+    },
+    {
+      "path": "test/runtime_controls.test",
+      "bytes": 364,
+      "sha256": "7d4d9e6431a9d16a8b15a61b68f17401fb0375a54fc4cc4112c622a6652efa46"
+    },
+    {
+      "path": "test/stereo_interface.test",
+      "bytes": 1061,
+      "sha256": "60cd4a2782229022a52c9f9a5951d2775a8d6049dce208aad35a119b54b311a8"
+    },
+    {
+      "path": "test/test_controls.cpp",
+      "bytes": 3209,
+      "sha256": "db36163c2f9c4908379f4a00a87f963748748805a795b5c0cef7e42b1dc76b0c"
+    },
+    {
+      "path": "test/test_core.cpp",
+      "bytes": 13155,
+      "sha256": "78723cff53ff9cd6eb0f1a7be60ea21ddabc2358ce15a5a2fffd58358ebcc3e5"
+    },
+    {
+      "path": "test/test_diagnostics.cpp",
+      "bytes": 10372,
+      "sha256": "4ea2df4188e2506e4acc02ca6bff63d7e4158559b30bdf1f6c0a2e90235cd32f"
+    },
+    {
+      "path": "test/test_experiment_tools.py",
+      "bytes": 10041,
+      "sha256": "65fc3d3f4edb2140b06848632c271bdcb1a80fb4a8e9ab5df560370dbbf53b8b"
+    },
+    {
+      "path": "test/test_fault_node.cpp",
+      "bytes": 1919,
+      "sha256": "8688f969b6f544c86a27fc75388a1fa2f1c24bf2de1395a24371d7ef1976ae62"
+    },
+    {
+      "path": "test/test_ros_diagnostics.py",
+      "bytes": 7736,
+      "sha256": "0cdc013f9b079f3ca09e975d5910eb6c7f6f9564777c38b7c9248d416098d68b"
+    },
+    {
+      "path": "test/test_ros_interface.py",
+      "bytes": 6412,
+      "sha256": "c0a7418126313fda58aac445c121aff1ae02c497e88540dba53e5b0eefefc24c"
+    },
+    {
+      "path": "test/test_runtime_controls.py",
+      "bytes": 2588,
+      "sha256": "b2db7206ac5cf6d4be064e4f67bd8bf7f428372a5164a6f6aad8bda2a75d6963"
+    },
+    {
+      "path": "test/test_session_store.py",
+      "bytes": 6112,
+      "sha256": "48f2f44660ea4c6069121c292ca28885dd6dba4d36804139fe2a0f5808b81ff8"
+    },
+    {
+      "path": "test/test_startup_controls.cpp",
+      "bytes": 6508,
+      "sha256": "6fd47129c75f744659a050d37a47eb9286ea232025448566a1ef3c05ef86f059"
+    },
+    {
+      "path": "test/test_viewer.py",
+      "bytes": 12116,
+      "sha256": "6687c04f6f240966b0dd956893544109248ba90a175a6cd8660d310db38f4aa3"
+    },
+    {
+      "path": "tools/check_package.py",
+      "bytes": 5181,
+      "sha256": "a826c6013aab7a020faf977707f7ddc39d1e7603b430d74a9e7112d925339bbc"
+    },
+    {
+      "path": "web/index.html",
+      "bytes": 10029,
+      "sha256": "76b389d29938060f9c3d2c53a8e04c4c2d792a4ee17cf3b77fdeef12d70fb856"
+    },
+    {
+      "path": "include/ardustereo/capture.hpp",
+      "bytes": 1410,
+      "sha256": "6494455ab88eca7dcb47833b8b68434234536e6ee7b6f99ad3c47f50e8abaf69"
+    },
+    {
+      "path": "include/ardustereo/config.hpp",
+      "bytes": 1077,
+      "sha256": "f32eda164e92510db453eb7f8e010110d9a78a33182fdfa9682ea2d17d613187"
+    },
+    {
+      "path": "include/ardustereo/controls.hpp",
+      "bytes": 1025,
+      "sha256": "5b149d033a8e93e8773be9121101ae948414a2f663755b866fb12c32e0f2f2b5"
+    },
+    {
+      "path": "include/ardustereo/diagnostics.hpp",
+      "bytes": 3027,
+      "sha256": "aab3d340d8928d6825755a97689d83f94ec703392ddc45498971234799096c62"
+    },
+    {
+      "path": "include/ardustereo/frame_ops.hpp",
+      "bytes": 1069,
+      "sha256": "e5fd769be2cd434d061de21f64e6680befc944625e47565d5653b852a9f602dc"
+    },
+    {
+      "path": "include/ardustereo/opencv_capture.hpp",
+      "bytes": 156,
+      "sha256": "511ac98437f8d32e93b390e878226625efd24a76971e8a7855072641bb8e8539"
+    },
+    {
+      "path": "test/fixtures/synthetic_left.yaml",
+      "bytes": 457,
+      "sha256": "52f23a0de057746ec724a61847bca5fbf66e537c9b0d2e7858a523b5a1524fa0"
+    },
+    {
+      "path": "test/fixtures/synthetic_right.yaml",
+      "bytes": 461,
+      "sha256": "5c74d8e1ffca33b5fa9fca3bf6332691374813aceb7365947665e2b456d9dde0"
+    }
+  ]
+}

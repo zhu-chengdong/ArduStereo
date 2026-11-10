@@ -1,33 +1,37 @@
-# Published validation evidence
+# Tested GUI candidate: evidence and reproduction
 
-This directory contains numeric summaries and relative timing data from author-run tests on one validated rig. Original images, unredacted system/network logs and private task journals are not part of the public distribution. No new acquisition was performed during publication preparation.
+This directory publishes de-identified numeric evidence for `0.3.0-startup-init-fix1`, measured on2026-11-10. It is not an additional hardware run. Camera images, bags, device/network logs and private journals are excluded. Previous v0.2.2 data and its original strict no-WARN failure remain unchanged at [v0.2.2/validation](https://github.com/zhu-chengdong/ArduStereo/tree/v0.2.2/validation).
 
-`results/hardware_summary.json` records the actual test scope, controls, counts, CPU/RSS and shutdowns. A3600s run delivered71822 complete five-message groups at19.9506FPS. It had20 low-rate diagnostic samples, minimum5s16.8FPS, so the original strict no-WARN criterion failed. Measurement-period read faults and incomplete groups were0; an additional empty read occurred during SIGINT cleanup outside the measurement window and is not a sensor-loss count.
+## Main results
 
-The final10-minute legacyGREY/current pair delivered19.927/19.972FPS. The untouched legacy program selectedY16, even after a pre-openGREY request, and was not comparable. The measured legacy variant only added `cap.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('G','R','E','Y'));` before setting width. Its original source SHA256 is recorded in THIRD_PARTY_NOTICES.md. The legacy compiler flags were empty; current flags were `-O2 -g -DNDEBUG`. Output features also differ. These are current deployment costs, not a controlled attribution to refactoring or algorithmic speed.
+The fixed3600s preview-active window produced71,188 complete five-topic groups at19.774444FPS. It includes133 low-publication-rate WARN samples, minimum fixed5s receive-bin rate11.4FPS,35 bins below19FPS, and maximum composite receive gap602.902661ms. No measurement-window empty-read, frame-rejection or read-exception counter increment was observed. These window statements do not remove shutdown-boundary empty reads or the final partial message group outside the window.
 
-A legacy pilot overlapped log compression/retrieval and was excluded from the final resource comparison. Its numeric replay is retained as `old_pilot`; it is not an additional independent final comparison. The clean legacy repeat used the same GREY-only binary without concurrent compilation or retrieval.
+The predeclared scoped criteria were mean19–21FPS, no receive gap>2s and no window read/format faults, with low-rate warnings separately retained. The result is `PASS_SCOPED_FINAL_EXPERIMENTS_WITH_RATE_WARNINGS`, not strict-no-WARN or sensor-zero-loss success. The viewer's first/last5min RSS increased66.24503→71.93011MiB. See [summary](gui-fix1/summary.json) and the complete time series below.
 
-## Recompute common timing metrics
+![Full60min rate, CPU and RSS traces](gui-fix1/endurance.svg)
 
-```bash
-python3 validation/verify_timing.py
-```
+The chart shows every diagnostic sample and all133 WARN points, plus capture/viewer resource samples. It does not smooth away dips. CPU100%=one logical core, RSS inMiB. No replicate error bars are invented from this single run.
 
-`data/*_timing.csv.gz` contains all saved composite callback/header timestamps, including prefix/drain rows. `t_receive_ns` is relative to the measurement start; the measured window is `[0, valid_seconds*1e9)`. `t_header_ns` has a separate arbitrary additive origin. Intervals and pairing stamps are preserved exactly; absolute date/boot-time information is removed. Do not interpret the separate zero points as transport latency or sensor exposure timing. `timing_provenance.json` retains the original input SHA256 and transformation.
-
-`data/*_diagnostics.csv` gives the actual diagnostic callback time relative to the same measurement window and original rates/counters. All20 long-run warnings were supported by independent callback windows, hostHeader windows and source counter increments. The old node had no equivalent source counters; its minimum5s15.2FPS and10 low windows are receiver-side offline calculations, not native legacy warnings. Shifting the1s evaluation phase changes some threshold-near samples; it does not remove the observed dips.
-
-## Replay the frozen C++ rate calculation
-
-Build the core-only library first, then compile this numerical helper:
+## Public inputs and checks
 
 ```bash
-c++ -std=c++14 -Iinclude validation/replay_statistics.cpp build/core/libardustereo_core.a -pthread -o build/replay_statistics
-gzip -dc validation/replay_inputs/long.txt.gz > build/long-events.txt
-build/replay_statistics build/long-events.txt build/long-replayed.csv
+python3 validation/gui-fix1/verify_results.py
 ```
 
-Inputs contain only relative fake-clock `E` frame events and `Q` snapshot requests. No CaptureSource/OpenCV/ROS/camera instance is used. Eight local x86_64 replay scenarios produced12600 snapshots matching independent event counts; an ideal20Hz-hour model had0WARN. The simulated16-event omission is a numerical test case, not measured camera loss. Expected results are in `results/replay_expected.json`.
+The checker uses Python's standard library only and no camera/ROS process. It checks data hashes, the frozen implementation,71,188 composite relative arrivals, full-window FPS, maximum gaps including edges, fixed5s bins,3600 diagnostics including133 WARN samples, and1766 resource samples per role. It independently recomputes CPU/RSS summaries from the published tables. The five-topic complete-group count and image/control/replay checks are retained as author-run summary evidence, not claimed to be reconstructed solely from a composite arrival table.
 
-The observed output gaps also occurred in the same-format legacy flow. Hardware, driver and scheduling contributions remain unseparated: no sensor sequence/exposure timestamps or per-call blocking durations were recorded, and attempted kernel-log reads were permission-denied. Empty kernel stdout must not be treated as proof of no driver error.
+`arrivals.csv.gz` contains every composite arrival in the original half-open hour window. Nanoseconds are relative to the window start, with absolute clock and device identifiers removed. `diagnostics.csv` contains unchanged5s sliding publication rates sampled each second. `resources.csv` contains capture/viewer CPU andRSS at original relative sample times. Fixed bins and sliding windows are different metrics. `data-manifest.json` identifies source SHA256 values and transformations; `implementation-manifest.json` identifies the exact tested source subset. Published numeric tables and original software are under the repository MIT license; third-party licenses are unchanged.
+
+## Additional real checks and retained qualifications
+
+The short GUI test verified exposure681→340→681, gain100→200→100 and20→10→20FPS in a fixed scene. The400×400 ROI atx100/y100 was subsampled consistently. Exposure restoration changed left/right ROI means+0.2971%/+0.3575%; gain restoration−0.16594%/−0.16540%. Gain200 caused partial saturation and was a response test, not a recommended optimal exposure. Eight raw snapshot pairs and two saved YAML files were verified locally.
+
+A network interruption in that short test and subsequent USB connection recovery are separate sessions; they were not stitched into the continuous hour. The same tested binary was used. The short-test subscriber/pub count difference17 was retained locally, not called zero sensor loss. The full hour has its own independent window and logs.
+
+New/legacy comparisons used the same GREY2560×800 and raw20/681/100, each120s/2400composite messages. The legacy baseline is the preserved one-line GREY adaptation because the untouched original selectedY16. Its SHA256 is`275f74b148e06c0a8d4a2d943c414b04c8c7f832b20b0315a9217d8a3e9b2945`. The first legacy attempt incorrectly used ROS registration as readiness; startup then reset rate to50. It failed the input gate before timing. A separate successful attempt waited for a real first image, used the same binary, then set controls. This was a test-harness readiness problem, not evidence of hardware damage or an assigned user mistake.
+
+Initial offline analysis incorrectly failed every `degraded` state, including the allowed rate-only WARN. The original report/script were retained. Classification was corrected only for the exact level1 low-rate message without an error stage; the original data, rate/gap thresholds and133 warnings were unchanged. Other degraded/error states still fail. Seven offline checks covered the correction; no camera rerun was used to replace the hour.
+
+Two GUI stops were natural, about1.231/1.244s, and restart was checked. A separate external10s rosbag command produced9.774503s of messages:196 in each of four stereo topics and11 diagnostics. With the camera stopped, actual0.5× replay received all196 groups and had zero aligned complete-serialized-payload SHA mismatches. This does not establish real-time1× long replay, SLAM accuracy, calibration or physical exposure synchronization.
+
+Figure-making used the scientific-visualization workflow for faithful traces and export checks. Tool-library provenance: Kassis et al., *Scientific Agent Skills: A Library of Procedural Knowledge for Research Agents*,2026,[arXiv](https://arxiv.org/abs/2609.00065). This is a figure-tool attribution, not validation evidence for ArduStereo.

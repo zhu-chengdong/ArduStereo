@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-10",
+  "absolute_time_and_device_identifiers_removed": true,
+  "transformation": "Select original fixed hour; subtract measurement start from composite receive nanoseconds; gzip mtime0. No row removal inside window.",
+  "source_sha256": {
+    "composite_arrivals": "cecabe53976e8793e5a3a58f3090744bf9556836ba677dbe25d181d4feb15cf0",
+    "diagnostics": "172ba5b54d3963aa73f6e0f82ace2a0cf6f0f8f84b896ef71612c19ff4e436b9",
+    "resources": "2b231185fdfab1795fcd8120810e4fb5abbc895a422ca65c2d2dc99fb7cbb443",
+    "final_summary": "af0080cd466fe4ffe961898986ad93f92177e27a7114fd4289b2ff1cc5b732f3"
+  },
+  "data_files": [
+    {
+      "path": "validation/gui-fix1/arrivals.csv.gz",
+      "bytes": 420928,
+      "sha256": "ae26ed64611a993ca2ab1c4822747c71453106f799fd6cf44edb8408ef563754"
+    },
+    {
+      "path": "validation/gui-fix1/diagnostics.csv",
+      "bytes": 114077,
+      "sha256": "13221137840f91ffdfd76e74d2c71f360e263988170484117e1bf4027581cf26"
+    },
+    {
+      "path": "validation/gui-fix1/endurance.svg",
+      "bytes": 170741,
+      "sha256": "4fb244626395d053f00694f13fdbb27664c7388f93dd39ba011c4badf98a5a2c"
+    },
+    {
+      "path": "validation/gui-fix1/resources.csv",
+      "bytes": 203566,
+      "sha256": "307044c9572a29b9b09ad68ac6966bc0eaba8dcaea2b269a4dbefa39979cf941"
+    },
+    {
+      "path": "validation/gui-fix1/summary.json",
+      "bytes": 12248,
+      "sha256": "576877931cbdf250c5adb2c8d9393ab2851b95047498b7786af0f5e8ec653ec3"
+    }
+  ]
+}

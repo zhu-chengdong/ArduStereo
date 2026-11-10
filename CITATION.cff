@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-message: "If you use ArduStereo, please cite this software release."
+message: "If you use ArduStereo, please cite the exact software release."
 type: software
-title: ArduStereo
+title: "ArduStereo: visual preview, control and acquisition for Arducam B0266"
 authors:
   - family-names: Zhu
     given-names: Chengdong
     affiliation: University of York
-version: 0.2.2
-date-released: 2026-11-09
+version: 0.3.0-startup-init-fix1
+date-released: 2026-11-10
 license: MIT
 repository-code: https://github.com/zhu-chengdong/ArduStereo
-url: https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.2.2
+url: https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.3.0-startup-init-fix1

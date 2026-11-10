@@ -1,0 +1,411 @@
+{
+  "candidate": "0.3.0-startup-init-fix1",
+  "tested_node_sha256": "67220166c0622938bc04eeacc0ae8537a2de840466eb8d152189fdd96bb4d9b8",
+  "verification_date": "2026-11-10",
+  "measurement_seconds": 3600,
+  "format": "GREY 2560x800",
+  "raw_controls": {
+    "frame_rate": 20,
+    "exposure": 681,
+    "analogue_gain": 100
+  },
+  "platform": {
+    "board": "Jetson Orin Nano 8GB",
+    "ubuntu": "20.04",
+    "l4t": "35.5.0",
+    "kernel": "5.10.192-tegra",
+    "ros": "Noetic 1.17.4",
+    "opencv": "4.5.4",
+    "camera": "Arducam B0266 dual OV9281 and Camarray HAT"
+  },
+  "status": "PASS_SCOPED_FINAL_EXPERIMENTS_WITH_RATE_WARNINGS",
+  "topic_metrics": {
+    "left/camera_info": {
+      "seconds": 3600.0,
+      "received_frames": 71188,
+      "fps_by_window": 19.774444444444445,
+      "fps_by_first_last": 19.774485217249143,
+      "maximum_gap_ms_including_edges": 599.062597,
+      "interval_ms_p50": 49.996485,
+      "interval_ms_p95": 54.862113599999994,
+      "interval_ms_p99": 60.22931743999994,
+      "arrival_monotonic": true,
+      "five_second_min_fps": 11.4,
+      "five_second_windows_below19": 35,
+      "fps_passed": true,
+      "gap_passed": true,
+      "passed": true
+    },
+    "left/image_raw": {
+      "seconds": 3600.0,
+      "received_frames": 71188,
+      "fps_by_window": 19.774444444444445,
+      "fps_by_first_last": 19.77449589899419,
+      "maximum_gap_ms_including_edges": 601.365681,
+      "interval_ms_p50": 49.995493,
+      "interval_ms_p95": 51.9043644,
+      "interval_ms_p99": 59.74228675999991,
+      "arrival_monotonic": true,
+      "five_second_min_fps": 11.4,
+      "five_second_windows_below19": 35,
+      "fps_passed": true,
+      "gap_passed": true,
+      "passed": true
+    },
+    "right/camera_info": {
+      "seconds": 3600.0,
+      "received_frames": 71188,
+      "fps_by_window": 19.774444444444445,
+      "fps_by_first_last": 19.77449479349913,
+      "maximum_gap_ms_including_edges": 599.134055,
+      "interval_ms_p50": 50.000902,
+      "interval_ms_p95": 55.718949,
+      "interval_ms_p99": 59.628766879999894,
+      "arrival_monotonic": true,
+      "five_second_min_fps": 11.4,
+      "five_second_windows_below19": 35,
+      "fps_passed": true,
+      "gap_passed": true,
+      "passed": true
+    },
+    "right/image_raw": {
+      "seconds": 3600.0,
+      "received_frames": 71188,
+      "fps_by_window": 19.774444444444445,
+      "fps_by_first_last": 19.77450061311588,
+      "maximum_gap_ms_including_edges": 601.350257,
+      "interval_ms_p50": 50.000646,
+      "interval_ms_p95": 54.787141,
+      "interval_ms_p99": 59.735574559999826,
+      "arrival_monotonic": true,
+      "five_second_min_fps": 11.4,
+      "five_second_windows_below19": 35,
+      "fps_passed": true,
+      "gap_passed": true,
+      "passed": true
+    },
+    "image_raw": {
+      "seconds": 3600.0,
+      "received_frames": 71188,
+      "fps_by_window": 19.774444444444445,
+      "fps_by_first_last": 19.774486657953563,
+      "maximum_gap_ms_including_edges": 602.902661,
+      "interval_ms_p50": 49.99463,
+      "interval_ms_p95": 53.3164392,
+      "interval_ms_p99": 57.04669988,
+      "arrival_monotonic": true,
+      "five_second_min_fps": 11.4,
+      "five_second_windows_below19": 35,
+      "fps_passed": true,
+      "gap_passed": true,
+      "passed": true
+    }
+  },
+  "complete_five_topic_groups": 71188,
+  "diagnostic_samples": 3600,
+  "warnings": [
+    {
+      "level": 1,
+      "message": "Publication rate below monitoring reference",
+      "count": 133
+    }
+  ],
+  "window_faults": {
+    "empty_reads": 0,
+    "frame_rejections": 0,
+    "read_exceptions": 0
+  },
+  "resources": {
+    "capture_node": {
+      "cpu_one_core_percent": {
+        "n": 1766,
+        "mean": 18.96941264230199,
+        "minimum": 10.300158700234707,
+        "maximum": 21.049514859470563,
+        "p50": 19.11690444681014,
+        "p95": 20.10004863930036
+      },
+      "rss_mib": {
+        "n": 1766,
+        "mean": 50.984375,
+        "minimum": 50.984375,
+        "maximum": 50.984375,
+        "p50": 50.984375,
+        "p95": 50.984375
+      },
+      "first5min_rss_mean_mib": 50.984375,
+      "last5min_rss_mean_mib": 50.984375
+    },
+    "independent_observer": {
+      "cpu_one_core_percent": {
+        "n": 1766,
+        "mean": 25.69999486012738,
+        "minimum": 14.2240286812765,
+        "maximum": 27.921889001457266,
+        "p50": 25.97680526940635,
+        "p95": 26.955005253092494
+      },
+      "rss_mib": {
+        "n": 1766,
+        "mean": 65.18071161877124,
+        "minimum": 59.21875,
+        "maximum": 72.3515625,
+        "p50": 65.4140625,
+        "p95": 67.4140625
+      },
+      "first5min_rss_mean_mib": 63.36556653911565,
+      "last5min_rss_mean_mib": 65.47896431587837
+    },
+    "ros_master": {
+      "cpu_one_core_percent": {
+        "n": 1766,
+        "mean": 0.25239959146835256,
+        "minimum": 0.0,
+        "maximum": 0.9872386048054381,
+        "p50": 0.0,
+        "p95": 0.4925381896723328
+      },
+      "rss_mib": {
+        "n": 1766,
+        "mean": 42.82741054997169,
+        "minimum": 42.51953125,
+        "maximum": 42.84375,
+        "p50": 42.84375,
+        "p95": 42.84375
+      },
+      "first5min_rss_mean_mib": 42.64745429421769,
+      "last5min_rss_mean_mib": 42.84375
+    },
+    "ros_support": {
+      "cpu_one_core_percent": {
+        "n": 7064,
+        "mean": 0.23886639168958843,
+        "minimum": 0.0,
+        "maximum": 0.9875879419101188,
+        "p50": 0.0,
+        "p95": 0.49189438720564593
+      },
+      "rss_mib": {
+        "n": 7064,
+        "mean": 34.24843340794875,
+        "minimum": 9.99609375,
+        "maximum": 43.0859375,
+        "p50": 42.0625,
+        "p95": 43.0859375
+      },
+      "first5min_rss_mean_mib": 33.827274659863946,
+      "last5min_rss_mean_mib": 34.3037109375
+    },
+    "viewer": {
+      "cpu_one_core_percent": {
+        "n": 1766,
+        "mean": 23.733937629750237,
+        "minimum": 17.16944686393428,
+        "maximum": 26.01812813568762,
+        "p50": 24.006801215245215,
+        "p95": 25.458656760102397
+      },
+      "rss_mib": {
+        "n": 1766,
+        "mean": 69.38096333522084,
+        "minimum": 63.95703125,
+        "maximum": 75.28515625,
+        "p50": 68.546875,
+        "p95": 72.3984375
+      },
+      "first5min_rss_mean_mib": 66.24503082482993,
+      "last5min_rss_mean_mib": 71.93010979729729
+    }
+  },
+  "system": {
+    "cpu_all_cores_percent": {
+      "n": 1766,
+      "mean": 13.972177416218948,
+      "minimum": 9.778142974527526,
+      "maximum": 25.0,
+      "p50": 13.86382280557834,
+      "p95": 14.744076055673009
+    },
+    "mem_available_kb": {
+      "n": 1766,
+      "mean": 5810643.816534542,
+      "minimum": 5796372.0,
+      "maximum": 5826816.0,
+      "p50": 5810448.0,
+      "p95": 5821974.0
+    },
+    "swap_used_kb": {
+      "n": 1766,
+      "mean": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "p50": 0.0,
+      "p95": 0.0
+    },
+    "max_temperature_c": {
+      "n": 1766,
+      "mean": 49.12571121177803,
+      "minimum": 48.531,
+      "maximum": 50.093,
+      "p50": 49.093,
+      "p95": 49.687
+    },
+    "disk_free_bytes": {
+      "n": 1766,
+      "mean": 489822895411.316,
+      "minimum": 489797177344.0,
+      "maximum": 489848586240.0,
+      "p50": 489822914560.0,
+      "p95": 489846031360.0
+    },
+    "sample_intervals_seconds": {
+      "n": 1765,
+      "mean": 2.0392541483342774,
+      "minimum": 2.024904899,
+      "maximum": 2.049890821,
+      "p50": 2.040173856,
+      "p95": 2.0422353458
+    }
+  },
+  "comparison": {
+    "new": {
+      "seconds": 120.0,
+      "metrics": {
+        "seconds": 120.0,
+        "received_frames": 2400,
+        "fps_by_window": 20.0,
+        "fps_by_first_last": 20.00199441328706,
+        "maximum_gap_ms_including_edges": 54.711395,
+        "interval_ms_p50": 49.980741,
+        "interval_ms_p95": 52.4610383,
+        "interval_ms_p99": 53.194581140000004,
+        "arrival_monotonic": true,
+        "five_second_min_fps": 20.0,
+        "five_second_windows_below19": 0,
+        "fps_passed": true,
+        "gap_passed": true,
+        "passed": true
+      },
+      "resources": {
+        "capture_cpu_one_core_percent": {
+          "n": 59,
+          "mean": 17.33844143118822,
+          "minimum": 16.17943048021306,
+          "maximum": 18.19882298315543,
+          "p50": 17.166635845525178,
+          "p95": 18.123485427759423
+        },
+        "capture_rss_mib": {
+          "n": 59,
+          "mean": 50.078125,
+          "minimum": 50.078125,
+          "maximum": 50.078125,
+          "p50": 50.078125,
+          "p95": 50.078125
+        }
+      }
+    },
+    "legacy": {
+      "seconds": 120.0,
+      "metrics": {
+        "seconds": 120.0,
+        "received_frames": 2400,
+        "fps_by_window": 20.0,
+        "fps_by_first_last": 20.00193970573702,
+        "maximum_gap_ms_including_edges": 52.201904,
+        "interval_ms_p50": 49.998918,
+        "interval_ms_p95": 50.604332199999995,
+        "interval_ms_p99": 50.83630024,
+        "arrival_monotonic": true,
+        "five_second_min_fps": 20.0,
+        "five_second_windows_below19": 0,
+        "fps_passed": true,
+        "gap_passed": true,
+        "passed": true
+      },
+      "resources": {
+        "capture_cpu_one_core_percent": {
+          "n": 59,
+          "mean": 10.996272652676383,
+          "minimum": 10.286849025091145,
+          "maximum": 11.279744163671433,
+          "p50": 10.791185642433845,
+          "p95": 11.279073084737728
+        },
+        "capture_rss_mib": {
+          "n": 59,
+          "mean": 42.09765625,
+          "minimum": 42.09765625,
+          "maximum": 42.09765625,
+          "p50": 42.09765625,
+          "p95": 42.09765625
+        }
+      }
+    }
+  },
+  "short_control": {
+    "snapshots": 8,
+    "saved_yaml": 2,
+    "exposure_restore_roi_percent": [
+      0.2971,
+      0.3575
+    ],
+    "gain_restore_roi_percent": [
+      -0.16594,
+      -0.1654
+    ],
+    "usb_console_restart_roi_percent": [
+      -0.20995,
+      -0.28973
+    ]
+  },
+  "natural_gui_stop_seconds": [
+    1.2310236370012717,
+    1.2444944540002325
+  ],
+  "record_replay": {
+    "passed": true,
+    "topics": {
+      "/camera/left/camera_info": {
+        "expected": 196,
+        "received": 196,
+        "aligned_mismatches": 0,
+        "passed": true
+      },
+      "/camera/left/image_raw": {
+        "expected": 196,
+        "received": 196,
+        "aligned_mismatches": 0,
+        "passed": true
+      },
+      "/camera/right/camera_info": {
+        "expected": 196,
+        "received": 196,
+        "aligned_mismatches": 0,
+        "passed": true
+      },
+      "/camera/right/image_raw": {
+        "expected": 196,
+        "received": 196,
+        "aligned_mismatches": 0,
+        "passed": true
+      }
+    },
+    "actual_span_seconds": 9.774502563001079,
+    "complete_stereo_groups": 196,
+    "playback_rate": 0.5,
+    "external_rosbag": true,
+    "gui_record_button": false
+  },
+  "qualifications": [
+    "One rig and one hour; no guarantee of constant 20Hz or sensor-level zero loss.",
+    "133 low-rate WARN samples are retained, not 133 independent incidents.",
+    "Viewer RSS grew from 66.245 to 71.930MiB first/last5min; no leak-free claim.",
+    "Read/format fault zeros refer only to the fixed hour; shutdown boundary empty reads retained privately.",
+    "Old GREY baseline is a separate one-line format adaptation; original Y16 source preserved.",
+    "The first legacy readiness attempt failed the input gate before the timed window; its logs were kept.",
+    "Offline analysis first misclassified rate-only degraded state; correction kept raw inputs and preset thresholds.",
+    "Host receive stamps; uncalibrated CameraInfo; no SLAM accuracy or physical synchronization measurement.",
+    "Initial short-test network interruption and USB recovery are separate sessions, not the continuous hour."
+  ]
+}

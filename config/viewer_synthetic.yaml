@@ -1,0 +1,26 @@
+# Explicit full-size synthetic viewer profile; never opens a camera.
+source: synthetic
+device: unused
+width: 2560
+height: 800
+split_column: 1280
+input_format: mono8
+mono16_shift: -1
+fourcc: ''
+buffer_size: 1
+warmup_frames: 0
+queue_size: 1
+max_read_failures: 10
+publish_composite: true
+composite_frame_id: camera
+left_frame_id: camera_left_optical_frame
+right_frame_id: camera_right_optical_frame
+left_camera_info_url: ''
+right_camera_info_url: ''
+require_calibration: false
+synthetic_fps: 20.0
+diagnostics_period: 1.0
+diagnostics_window: 5.0
+frame_timeout: 2.0
+diagnostic_expected_fps: 20.0
+diagnostic_min_fps_ratio: 0.9

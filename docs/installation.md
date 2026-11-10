@@ -1,27 +1,23 @@
-# Installation and deployment
+# Installation and prerequisites
 
-## Prerequisites
+This release requires an already working camera driver and an existing ROS Noetic development environment. It does not install drivers, firmware, device trees, JetPack, a kernel or ROS. A missing dependency should be resolved deliberately for the user's platform, not by running an opaque driver script.
 
-The tested camera environment is Ubuntu20.04 / L4T35.5.0 / kernel5.10.192-tegra on Jetson Orin Nano8GB, with ROS Noetic and OpenCV4.5.4. The existing Arducam driver must already expose the intended camera as a usable V4L2 device. Match the actual driver, device tree, kernel and camera; no other Jetson combination is implied by this test.
+The verified rig is documented in [compatibility](compatibility.md). Required build/runtime components are a C++14 compiler, CMake >=3.16, catkin, OpenCV4 with core/videoio, roscpp, sensor_msgs, camera_info_manager, diagnostic_msgs, message_generation/message_runtime, rospy, std_srvs and Python3 PyYAML. Tests additionally use rostest. The GUI uses Python's standard HTTP server and plain local HTML/JS; it needs no Qt, Node or external web framework.
 
-Build requirements are CMake>=3.16, a C++14 compiler, Threads, catkin, roscpp, sensor_msgs, camera_info_manager, diagnostic_msgs and OpenCV4 core/videoio development files. The companion needs Python3, rospy and std_srvs. ROS tests additionally need rostest; static YAML/package checks use PyYAML. They are declared in package.xml or documented here, not installed by this source package.
+Read-only dependency checks in an existing sourced Noetic shell:
 
-Inspect existing dependencies before changing a research platform. Useful read-only checks include `rosversion -d`, `pkg-config --modversion opencv4`, and `v4l2-ctl -d /dev/video0 --list-formats-ext --list-ctrls` when those tools are installed. A missing device or failed camera probe must be resolved separately from this application.
+```bash
+command -v cmake
+command -v catkin_make
+pkg-config --modversion opencv4
+python3 -c 'import yaml, rospy'
+rospack find message_generation
+rospack find message_runtime
+rospack find camera_info_manager
+rospack find diagnostic_msgs
+rospack find std_srvs
+```
 
-## Build
+Use the independent-workspace build commands in the [README](../README.md#build-and-use). `catkin_make` writes only that workspace. Source its `devel/setup.bash`; system-wide `make install` is unnecessary. Build first, then launch the viewer; starting the viewer alone does not open the camera.
 
-Follow the source checkout and `catkin_make` commands in the [README](../README.md). RelWithDebInfo matches the tested application's `-O2 -g -DNDEBUG` configuration. Source `devel/setup.bash` in each terminal; no `.bashrc` edit is required.
-
-For a core-only build, use [local_build.md](local_build.md). The validated camera path was tested from a devel workspace. Catkin install rules are provided, but release-specific real-camera install-space validation is not claimed.
-
-## First use
-
-Review config/b0266.yaml. Confirm device, GREY geometry and the observed driver-specific raw controls. Start `roslaunch ardustereo stereo.launch`, inspect the readback/startup log and diagnostics, and stop with Ctrl-C. No additional roscore or control-setting shell is needed for a fresh normal launch.
-
-Hardware control values are validated against the observed names/ranges/steps and read back. Unsupported mappings, failed writes or mismatches fail startup. An attempted rollback follows partial setting failures; this is not a guarantee that every possible driver can restore state. Gain/exposure unit conversion is not inferred.
-
-## Calibration and clocks
-
-Supply standard ROS calibration YAML through left_camera_info_url/right_camera_info_url if available. The node validates the message contract, not the physical calibration. The default empty URLs give explicit uncalibrated CameraInfo.
-
-Image stamps are host wall-clock receive times; rates and durations use a monotonic clock. The records flag implausibly old wall-clock dates. Multi-sensor experiments still need a separately verified clock/synchronization arrangement.
+Before physical use, confirm power, video node, supported format and raw control interfaces on the actual rig. No universal Jetson compatibility is assumed. Stop other camera consumers before starting ArduStereo. For a hardware-free check, use [synthetic tests](local_build.md).

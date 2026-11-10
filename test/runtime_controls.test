@@ -1,0 +1,8 @@
+<launch>
+  <include file="$(find ardustereo)/launch/stereo.launch">
+    <arg name="camera_ns" value="runtime_test"/>
+    <arg name="config" value="$(find ardustereo)/config/synthetic.yaml"/>
+    <arg name="session_tools" value="false"/>
+  </include>
+  <test test-name="runtime_controls" pkg="ardustereo" type="test_runtime_controls.py" time-limit="45"/>
+</launch>

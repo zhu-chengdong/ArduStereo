@@ -1,6 +1,6 @@
 # Runtime diagnostics and hardware-free fault tests
 
-This release publishes a standard ROS
+The 0.2.0 development snapshot publishes a standard ROS
 `diagnostic_msgs/DiagnosticArray` on `/diagnostics` (the topic can be remapped).
 Each status is named `<fully-qualified-node-name>: acquisition`. The source
 identity is the configured device path, or `synthetic_no_camera`; it is not a
@@ -14,7 +14,7 @@ aggregator. Standard severity values are defined by the [ROS message source](htt
 | `diagnostics_period` | 1.0 s | Independent ROS wall-timer publication interval, range 0.05–60 s |
 | `diagnostics_window` | 5.0 s | Requested sliding observation window, range 0.1–300 s |
 | `frame_timeout` | 2.0 s | Accepted-frame freshness threshold, range 0.05–300 s |
-| `diagnostic_expected_fps` | core0.0; B0266 profile20.0 | Optional publication-rate reference, range 0–10000; zero disables rate warnings |
+| `diagnostic_expected_fps` | 0.0 | Optional publication-rate reference, range 0–10000; zero disables rate warnings |
 | `diagnostic_min_fps_ratio` | 0.9 | Minimum reference ratio, range (0,1] |
 
 These parameters monitor the application; none sets a sensor control or camera
@@ -88,7 +88,7 @@ Freshness takes precedence over temporary failures and low rates. An accepted
 frame clears consecutive empty reads; a low-rate warning clears only as its
 window recovers. The configured empty-read limit causes a nonzero process exit.
 Bad frames and source exceptions are fatal. There is no automatic synthetic
-fallback or reconnection. The diagnostic component itself does not mutate controls.
+fallback, reconnection or device-control mutation.
 
 Diagnostics run on a dedicated callback queue and spinner, without holding a
 monitor lock across source open/read/close. A finite blocked read can therefore
@@ -118,4 +118,7 @@ ROS rate test accommodate host scheduling; they are not camera performance bound
 The production executable accepts no fault-injection parameters, and the fault
 executable is never installed. Both run the same ROS acquisition implementation.
 
-Executed outcomes and scope are in [validation](validation.md). In the60-minute run,20 low-rate WARN samples were supported by source counters and saved timestamps. Short FPS warnings do not by themselves identify a software fault or a sensor-level dropped frame.
+Executed outcomes, including failures and corrections, are recorded in
+`docs/validation.md` and the dated diagnostics acceptance directory beside the
+source tree. None establishes Jetson/ARM compatibility, actual camera controls,
+hardware drop counts, sustained capture performance or sensor synchronization.

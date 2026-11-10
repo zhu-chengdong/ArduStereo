@@ -1,14 +1,20 @@
-# Compatibility and evidence boundary
+# Compatibility and evidence boundaries
 
-| Combination | Evidence |
+Verified on 2026-11-10 with `0.3.0-startup-init-fix1`:
+
+| Component | Tested value |
 |---|---|
-| Jetson Orin Nano8GB / Ubuntu20.04 / L4T35.5.0 / kernel5.10.192-tegra / Noetic / OpenCV4.5.4 / B0266 | ARM build/tests, startup raw controls, split interfaces, short snapshots/restart, 60-minute capture and 10-minute comparison |
-| Isolated x86_64 Ubuntu20.04 / Noetic / OpenCV4.2.0 | Hardware-free build, core/ROS/file tests; not another physical-camera platform |
-| Other Jetson models, JetPack/L4T versions, Arducam firmware/driver variants or cameras | Not physically validated by this release |
-| ROS2 | No ROS2 adapter supplied |
+| Camera | B0266, dual OV9281, Camarray HAT, MIPI CSI |
+| Host | Jetson Orin Nano 8GB |
+| System | Ubuntu20.04, L4T35.5.0, kernel5.10.192-tegra |
+| Software | ROS Noetic1.17.4, OpenCV4.5.4 |
+| Input | `/dev/video0`, GREY2560×800 |
+| Controls | Raw frame_rate20/exposure681/analogue_gain100 |
 
-The observed format is packed GREY2560x800 with two1280x800 halves. Optional mono16 code paths have contract tests but no B0266 hardware acceptance here. Explicit GREY matters: the untouched legacy node negotiated Y16 even after an external pre-open format request.
+ARM build, GUI preview and runtime controls, snapshot/YAML, an hour with preview, natural stops/restart and short external rosbag replay were checked on this rig. All rate warnings and the observed viewer RSS increase are reported in [validation](../validation/README.md).
 
-The observed Arducam module SHA256 was `cb4523d34994ebf273fb90c75b3d1ef1e381549bf3dbf417bac0b8ce24da9587`. This fingerprint identifies the tested module; it does not establish a general driver version or permission to redistribute that binary.
+This is not a support matrix for other Jetson models, carrier boards, L4T versions or camera modules. The installed vendor driver and device tree must match the user's actual system. This repository does not redistribute or upgrade them. No driver register mapping or exposure/gain physical-unit calibration is claimed.
 
-Camera calibration, physical left/right identity and sensor exposure synchronization require separate rig-specific verification. Software splitting and equal host timestamps do not supply that evidence. No broad stability, hot-plug reconnect, depth or SLAM-accuracy claim is made from these runs.
+Images have host receive timestamps. Equal message stamps denote software pairing from the packed frame, not a measured sensor synchronization bound. With default empty calibration URLs, CameraInfo is uncalibrated. Physical stereo calibration, underwater image quality, SLAM accuracy, independent-user replication and cold-power-cycle reliability are not established by these bench tests.
+
+The old development banner and last timestamp text after stop are known display limitations in the frozen candidate. They were not edited merely for publication. No error or rate sample was removed to make the release appear more stable.
