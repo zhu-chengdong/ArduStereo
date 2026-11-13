@@ -30,6 +30,26 @@ class RecordingFaultTests(unittest.TestCase):
         self.assertIn('rosbag', status['message'])
         self.assertFalse(Path(status['path']).exists())
 
+    def test_select_folder_persists_and_retains_old_choice_on_failure(self):
+        base = Path(self.directory.name)
+        dest = base / 'Run A 水下实验'
+        dest.mkdir()
+        rec = BagRecorder(base / 'viewer_one', '/camera', lambda: True)
+        self.assertIn(dest.name, rec.browse(str(base))['folders'])
+        rec.select_directory(str(dest))
+        with self.assertRaises(FileNotFoundError):
+            rec.select_directory(str(base / 'missing'))
+        nxt = BagRecorder(base / 'viewer_two', '/camera', lambda: True)
+        self.assertEqual(nxt.status()['directory'], str(dest.resolve()))
+        with patch('viewer_recording.tempfile.TemporaryFile', side_effect=PermissionError('read-only')):
+            with self.assertRaises(PermissionError):
+                nxt.select_directory(str(base))
+        self.assertEqual(nxt.status()['directory'], str(dest.resolve()))
+        dest.rename(base / 'moved')
+        with self.assertRaises(FileNotFoundError):
+            nxt.start()
+        self.assertFalse(dest.exists())
+
     def test_low_space(self):
         with patch('viewer_recording.shutil.disk_usage') as usage:
             usage.return_value.free = 60000

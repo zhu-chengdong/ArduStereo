@@ -56,6 +56,14 @@ button:disabled { opacity: .48; cursor: default; }
 #result:not(:empty), #diagnostic:not([hidden]) { font-size: 14px; padding: 10px 0; overflow-wrap: anywhere; }
 .error, #diagnostic[data-level=error] { color: #942b40; }
 .recording { border-top: 1px solid var(--rule); margin-top: 14px; padding-top: 12px; }
+.folder-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+#destination { flex: 1; min-width: 8rem; overflow-wrap: anywhere; font-size: 14px; }
+#folder-dialog { width: min(34rem, 92vw); padding: 20px; border: 1px solid var(--rule); border-radius: 6px; color: inherit; }
+#folder-dialog::backdrop { background: #24232b66; }
+#folder-path { flex: 1; min-width: 8rem; }
+#folder-list { max-height: 36vh; overflow: auto; border-block: 1px solid var(--rule); }
+#folder-list button { display: block; text-align: left; width: 100%; border: 0; overflow-wrap: anywhere; }
+#folder-feedback { min-height: 1.4em; font-size: 14px; margin: 8px 0; }
 .record-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 #bag-status, #bag-time { font-size: 15px; }
 #bag-status[data-recording=true] { color: #983552; }

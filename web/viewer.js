@@ -92,6 +92,7 @@ function buttons() {
   byId('save').disabled = locked;
   const bag = state?.recording;
   const active = ['starting', 'recording', 'finalizing'].includes(bag?.state);
+  byId('choose-folder').disabled = locked || !bag?.available || active;
   byId('record').hidden = active;
   byId('finish').hidden = !active;
   byId('record').disabled = locked || !bag?.available || !state?.preview_fresh || !state?.running;
@@ -102,6 +103,7 @@ function buttons() {
 function render(s) {
   state = s;
   const bag = s.recording || {};
+  byId('destination').textContent = bag.directory || '—';
   const labels = {idle: 'Ready', starting: 'Starting recorder', recording: 'Recording',
                   finalizing: 'Saving…', saved: 'Saved', error: 'Recording error'};
   byId('bag-status').textContent = bag.available ? labels[bag.state] : 'Requires ROS';
@@ -207,6 +209,56 @@ async function preview() {
 }
 
 for (const id of actions) byId(id).addEventListener('click', () => command(id));
+const picker = byId('folder-dialog');
+let listing = null;
+let navigation = 0;
+function folderRequest(action, path) {
+  return getJson('/api/' + action, {method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-ArduStereo-Token': token},
+    body: JSON.stringify({path})});
+}
+async function browseFolder(path) {
+  const seq = ++navigation;
+  byId('folder-use').disabled = true;
+  byId('folder-list').replaceChildren();
+  byId('folder-feedback').textContent = 'Loading…';
+  try {
+    const data = await folderRequest('folders', path);
+    if (seq !== navigation || !picker.open) return;
+    listing = data;
+    byId('folder-path').value = data.path;
+    byId('folder-up').disabled = data.path === data.parent;
+    for (const name of data.folders) {
+      const button = document.createElement('button');
+      button.textContent = name;
+      button.onclick = () => browseFolder(data.path.replace(/\/$/, '') + '/' + name);
+      byId('folder-list').append(button);
+    }
+    byId('folder-use').disabled = !data.writable;
+    byId('folder-feedback').textContent = !data.writable ? 'This folder is read-only.' :
+      (data.folders.length ? '' : 'No subfolders');
+  } catch (error) {
+    if (seq === navigation) byId('folder-feedback').textContent = error.message;
+  }
+}
+byId('choose-folder').onclick = () => { picker.showModal(); browseFolder(null); };
+byId('folder-location').onsubmit = event => { event.preventDefault(); browseFolder(byId('folder-path').value); };
+byId('folder-path').oninput = () => { ++navigation; byId('folder-use').disabled = true; };
+byId('folder-home').onclick = () => browseFolder(listing?.home || '~');
+byId('folder-up').onclick = () => { if (listing) browseFolder(listing.parent); };
+byId('folder-cancel').onclick = () => picker.close();
+byId('folder-use').onclick = async () => {
+  if (!listing || byId('folder-use').disabled) return;
+  byId('folder-use').disabled = true;
+  try {
+    await folderRequest('destination', listing.path);
+    picker.close();
+    await update();
+  } catch (error) {
+    byId('folder-feedback').textContent = error.message;
+    byId('folder-use').disabled = false;
+  }
+};
 async function poll() { await update(); setTimeout(poll, 500); }
 poll();
 preview();

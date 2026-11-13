@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>ardustereo</name>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
   <description>Stereo acquisition with startup V4L2 controls for the reviewed B0266 camera.</description>
   <maintainer email="chengdong.zhu@york.ac.uk">Chengdong Zhu</maintainer>
   <license>MIT</license>

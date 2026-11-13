@@ -1,15 +1,15 @@
 # ArduStereo
 
-**Latest release · [v0.4.0](https://github.com/zhu-chengdong/ArduStereo/releases/latest)**　[Download source ZIP](https://github.com/zhu-chengdong/ArduStereo/releases/download/v0.4.0/ArduStereo-0.4.0-source.zip) · [Installation](#build-and-use) · [中文](README.zh-CN.md) · [Previous releases](https://github.com/zhu-chengdong/ArduStereo/releases)
+**Latest release · [v0.4.1](https://github.com/zhu-chengdong/ArduStereo/releases/latest)**　[Download source ZIP](https://github.com/zhu-chengdong/ArduStereo/releases/download/v0.4.1/ArduStereo-0.4.1-source.zip) · [Installation](#build-and-use) · [中文](README.zh-CN.md) · [Previous releases](https://github.com/zhu-chengdong/ArduStereo/releases)
 
 Preview and tune an Arducam B0266 stereo camera and record full-resolution ROS bags in the same browser console. In a built and sourced ROS Noetic workspace, run `roslaunch ardustereo viewer.launch` and open `http://127.0.0.1:8765/`.
 
 1. Click **Start camera** and check both views.
 2. Change exposure, frame rate or analog gain, click **Apply settings** and confirm the driver readback.
-3. Click **Start recording**. The console shows the elapsed time and file path.
+3. Beside **Save to**, click **Choose folder…**, browse to a writable directory on the camera computer and click **Use this folder**. Click **Start recording**. The console shows the elapsed time and file path.
 4. Click **Stop recording** and wait for **Saved**. Keep previewing for the next segment or click **Stop camera**.
 
-The integrated recorder passed local ROS Noetic tests with synthetic stereo input. A new recording run on Jetson / B0266 is pending. See [release notes](RELEASE_NOTES.md) and the [viewer guide](docs/viewer.md).
+The folder picker and recorder were exercised on a Jetson Orin Nano with a B0266. Two consecutive bags in different selected folders contained 46 and 53 messages on each stereo topic. See [release notes](RELEASE_NOTES.md) and the [viewer guide](docs/viewer.md).
 
 ## B0266 reference platform (hardware-tested on v0.3.0-startup-init-fix1)
 
@@ -32,7 +32,7 @@ In an existing Noetic environment with the [listed dependencies](docs/installati
 ```bash
 mkdir -p ~/ardustereo_gui_ws/src
 cd ~/ardustereo_gui_ws/src
-git clone --branch v0.4.0 --depth 1 https://github.com/zhu-chengdong/ArduStereo.git ardustereo
+git clone --branch v0.4.1 --depth 1 https://github.com/zhu-chengdong/ArduStereo.git ardustereo
 cd ~/ardustereo_gui_ws
 source /opt/ros/noetic/setup.bash
 catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_EXECUTABLE=/usr/bin/python3

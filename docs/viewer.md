@@ -10,6 +10,8 @@ The server binds to loopback only. It does not change networking/firewall settin
 
 ## Daily actions
 
+Before recording, click **Choose folder…** beside **Save to**. Browse directories on the camera computer, or type an absolute path in **Location** and click **Open**. Click **Use this folder** to write new bag files directly there. The choice persists across launches using the same viewer root. You can switch folders between segments. The session logs keep their original location.
+
 1. Start acquisition and check both images.
 2. Change one raw control, click Apply, then confirm readback. Requested values alone are not proof of image response.
 3. Wait at least one full5s window after a frame-rate change. Actual acquisition/publication rates are not the preview refresh rate.

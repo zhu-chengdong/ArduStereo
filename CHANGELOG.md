@@ -1,3 +1,7 @@
+# 0.4.1 — 2026-11-13
+
+Choose and remember a writable bag directory in the browser. See [release notes](RELEASE_NOTES.md).
+
 # 0.4.0 — 2026-11-13
 
 English stereo preview and parameter readback, with in-browser ROS bag recording, time and file status. Each segment can be saved while preview continues. See [release notes](RELEASE_NOTES.md).

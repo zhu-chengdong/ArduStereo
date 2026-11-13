@@ -66,6 +66,12 @@ def create_server(controller, web_root, port):
                 if not isinstance(payload,dict): raise ValueError('Expected object')
                 action = urlsplit(self.path).path.removeprefix('/api/') if sys.version_info >= (3,9) else urlsplit(self.path).path[len('/api/'):]
                 if not self.path.startswith('/api/'): raise ValueError('Unknown route')
+                if action in ('folders', 'destination'):
+                    if not controller.recorder:
+                        raise RuntimeError('Recording requires a ROS session')
+                    if action == 'folders':
+                        return self.send(200, controller.recorder.browse(payload.get('path')))
+                    return self.send(200, controller.perform('destination', payload.get('path')))
                 return self.send(200, controller.perform(action,payload.get('controls')))
             except (ValueError, TypeError) as error:
                 return self.send(400,{'success':False,'message':str(error)})

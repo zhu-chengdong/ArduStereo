@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ardustereo VERSION 0.4.0 LANGUAGES CXX)
+project(ardustereo VERSION 0.4.1 LANGUAGES CXX)
 
 option(ARDUSTEREO_BUILD_ROS "Build the ROS 1 node (requires catkin)" ON)
 option(ARDUSTEREO_BUILD_OPENCV "Build the OpenCV V4L2 source" ${ARDUSTEREO_BUILD_ROS})

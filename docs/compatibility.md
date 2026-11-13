@@ -1,6 +1,6 @@
 # Compatibility and evidence boundaries
 
-Version 0.4.0 was tested on local ROS Noetic with full-resolution synthetic stereo input and real rosbag output. On-device validation of its integrated recorder is pending.
+Version 0.4.0 was tested on local ROS Noetic with full-resolution synthetic stereo input and real rosbag output. Subsequent Jetson/B0266 short runs of v0.4.0 saved and replayed three segments with matching messages. The first run showed horizontal tearing in the right image, which did not recur in a later run. The cause remains unresolved. Version 0.4.1 also passed an on-device two-directory short recording check.
 
 Verified on 2026-11-10 with `0.3.0-startup-init-fix1`:
 

@@ -260,7 +260,7 @@ class Controller:
                     recording=self.recorder.status() if self.recorder else {'available': False},
                     acquisition_exited=exited, exit_code=launch.process.returncode if exited else None,
                     requested=self.requested.copy(), readback=copy.deepcopy(self.readback) if running else None, busy=self.operation.locked(),
-                    last_error=self.last_error, log_root=str(self.root), version='0.4.0')
+                    last_error=self.last_error, log_root=str(self.root), version='0.4.1')
 
     def perform(self, action, values=None):
         if self.closing: raise RuntimeError('Viewer is closing')
@@ -295,6 +295,8 @@ class Controller:
             stream.flush()
 
     def _perform(self, action, values):
+        if action == 'destination':
+            return self.recorder.select_directory(values)
         if action in ('record', 'finish'):
             if not self.recorder:
                 raise RuntimeError('Recording requires a ROS session')

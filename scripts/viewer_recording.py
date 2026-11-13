@@ -1,6 +1,9 @@
 """Record full-resolution ROS topics independently of the camera preview."""
+import json
+import os
 from pathlib import Path
 import shutil
+import tempfile
 import threading
 import time
 import uuid
@@ -20,6 +23,13 @@ def check_bag(path, stereo_topics):
 class BagRecorder:
     def __init__(self, root, namespace, camera_running):
         self.root = Path(root).resolve() / 'recordings'
+        self.preference = self.root.parent.parent / 'recording-folder.json'
+        self.destination = self.root
+        self.identity = None
+        if self.preference.is_file():
+            pref = json.loads(self.preference.read_text(encoding='utf-8'))
+            self.destination = Path(pref['path'])
+            self.identity = tuple(pref['identity'])
         self.camera_running = camera_running
         self.images = [namespace + '/' + side + '/image_raw' for side in ('left', 'right')]
         self.topics = self.images + [namespace + '/' + side + '/camera_info'
@@ -37,15 +47,70 @@ class BagRecorder:
         with self.lock:
             seconds = self.elapsed if self.began is None else time.monotonic() - self.began
             return dict(available=True, state=self.state, path=str(self.path or ''),
-                        seconds=int(seconds), message=self.message)
+                        seconds=int(seconds), message=self.message, directory=str(self.destination))
+
+    @staticmethod
+    def _directory(value):
+        if not isinstance(value, str) or not value or '\x00' in value:
+            raise ValueError('Choose a folder')
+        path = Path(value).expanduser()
+        if not path.is_absolute():
+            raise ValueError('Enter an absolute path on the camera computer')
+        path = path.resolve(strict=True)
+        if not path.is_dir():
+            raise ValueError('Choose an existing directory')
+        return path
+
+    def browse(self, value):
+        if value is None:
+            with self.lock:
+                initial = self.destination
+            value = str(initial if initial.is_dir() else Path.home())
+        path = self._directory(value)
+        with os.scandir(str(path)) as entries:
+            folders = sorted((entry.name for entry in entries
+                              if not entry.name.startswith('.') and entry.is_dir()),
+                             key=str.casefold)
+        return dict(path=str(path), parent=str(path.parent), home=str(Path.home()),
+                    folders=folders, writable=os.access(str(path), os.W_OK | os.X_OK))
+
+    def select_directory(self, value):
+        with self.lock:
+            if self.worker and self.worker.is_alive():
+                raise RuntimeError('Finish the current recording before changing folders')
+            path = self._directory(value)
+            with tempfile.TemporaryFile(dir=str(path)):
+                pass
+            stat = path.stat()
+            identity = (stat.st_dev, stat.st_ino)
+            self.preference.parent.mkdir(parents=True, exist_ok=True)
+            pending = None
+            try:
+                with tempfile.NamedTemporaryFile(dir=str(self.preference.parent), mode='w',
+                                                 encoding='utf-8', delete=False) as temp:
+                    pending = Path(temp.name)
+                    json.dump(dict(path=str(path), identity=identity), temp)
+                os.replace(str(pending), str(self.preference))
+            finally:
+                if pending and pending.exists():
+                    pending.unlink()
+            self.destination, self.identity = path, identity
+            return dict(success=True, directory=str(path))
 
     def start(self):
         with self.lock:
             if self.worker and self.worker.is_alive():
                 raise RuntimeError('A recording is already in progress')
-            self.root.mkdir(parents=True, exist_ok=True)
+            if self.identity is None:
+                self.root.mkdir(parents=True, exist_ok=True)
+            else:
+                stat = self.destination.stat()
+                if (stat.st_dev, stat.st_ino) != self.identity:
+                    raise RuntimeError('Recording folder changed. Choose the destination again.')
+                with tempfile.TemporaryFile(dir=str(self.destination)):
+                    pass
             name = 'stereo_' + time.strftime('%Y%m%d_%H%M%S_') + uuid.uuid4().hex[:12]
-            self.path = self.root / (name + '.bag')
+            self.path = self.destination / (name + '.bag')
             self.state = 'starting'
             self.message = ''
             self.began = None
@@ -77,7 +142,7 @@ class BagRecorder:
         active = Path(str(bag_path) + '.active')
         error = ''
         try:
-            if shutil.disk_usage(self.root).free <= 1024**3:
+            if shutil.disk_usage(bag_path.parent).free <= 1024**3:
                 raise RuntimeError('Less than 1 GiB free for rosbag')
             owner.start(bag_path)
             deadline = time.monotonic() + 12
@@ -86,7 +151,7 @@ class BagRecorder:
                     raise RuntimeError('Recorder exited unexpectedly')
                 if not self.camera_running():
                     raise RuntimeError('Camera stopped during recording')
-                if shutil.disk_usage(self.root).free <= 1024**3:
+                if shutil.disk_usage(bag_path.parent).free <= 1024**3:
                     raise RuntimeError('Recording interrupted by low disk space')
                 with self.lock:
                     if self.state == 'starting':

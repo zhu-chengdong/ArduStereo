@@ -32,6 +32,19 @@
       <div id="logs"></div></div>
     </details>
     <section class="recording" aria-label="ROS bag recording">
+      <div class="folder-bar"><label for="choose-folder">Save to</label>
+        <span id="destination"></span><button id="choose-folder" disabled>Choose folder…</button></div>
+      <dialog id="folder-dialog" aria-labelledby="folder-title">
+        <h2 id="folder-title">Recording folder on the camera computer</h2>
+        <form id="folder-location"><label for="folder-path">Location</label>
+          <div class="folder-bar"><input id="folder-path" type="text" spellcheck="false">
+          <button type="submit">Open</button></div></form>
+        <div class="folder-bar"><button id="folder-home">Home</button><button id="folder-up">Up</button></div>
+        <div id="folder-list" aria-label="Subfolders"></div>
+        <p id="folder-feedback" role="status"></p>
+        <div class="folder-bar"><button id="folder-use" class="primary" disabled>Use this folder</button>
+          <button id="folder-cancel">Cancel</button></div>
+      </dialog>
       <div class="record-bar">
         <button id="record" class="primary" disabled>Start recording</button>
         <button id="finish" hidden disabled>Stop recording</button>
