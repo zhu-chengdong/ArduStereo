@@ -6,8 +6,8 @@ authors:
   - family-names: Zhu
     given-names: Chengdong
     affiliation: University of York
-version: 0.3.0-startup-init-fix1
-date-released: 2026-11-10
+version: 0.4.0
+date-released: 2026-11-13
 license: MIT
 repository-code: https://github.com/zhu-chengdong/ArduStereo
-url: https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.3.0-startup-init-fix1
+url: https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.4.0

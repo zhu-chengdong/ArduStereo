@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Recompute public numeric evidence. No ROS, camera, network or third-party imports."""
 import csv
+import argparse
 import gzip
 import hashlib
 import json
@@ -18,11 +19,19 @@ def near(a,b,tolerance=1e-8):
     assert math.isclose(a,b,rel_tol=tolerance,abs_tol=tolerance),(a,b)
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--implementation-root', type=Path,
+                        help='Checkout of the tested v0.3.0-startup-init-fix1 source')
+    tested_source = parser.parse_args().implementation_root
     summary=load('summary.json')
-    for item in load('data-manifest.json')['data_files']+load('implementation-manifest.json')['files']:
-        data=(ROOT/item['path']).read_bytes()
-        assert len(data)==item['bytes']
-        assert hashlib.sha256(data).hexdigest()==item['sha256'],item['path']
+    manifests = [(ROOT, load('data-manifest.json')['data_files'])]
+    if tested_source:
+        manifests.append((tested_source, load('implementation-manifest.json')['files']))
+    for directory, items in manifests:
+        for item in items:
+            data = (directory / item['path']).read_bytes()
+            assert len(data) == item['bytes'], item['path']
+            assert hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
     seconds=summary['measurement_seconds']
     with gzip.open(HERE/'arrivals.csv.gz','rt',encoding='ascii',newline='') as stream:
         arrivals=[int(r['t_receive_ns']) for r in csv.DictReader(stream)]
@@ -59,6 +68,7 @@ def main():
         'composite_arrivals':len(arrivals),'diagnostics':len(diagnostics),'rate_WARN_samples':len(warnings),
         'mean_FPS':len(arrivals)/seconds,'minimum_fixed_5s_FPS':min(rates),
         'maximum_receive_gap_ms':max(gaps)/1e6,'resource_rows':len(resources),
+        'historical_implementation_verified': tested_source is not None,
         'new_hardware_runs':0},indent=2))
 
 if __name__=='__main__': main()

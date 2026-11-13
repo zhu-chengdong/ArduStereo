@@ -1,34 +1,12 @@
-# ArduStereo中文快速说明
+# ArduStereo
 
-ArduStereo把B0266双目相机的左右预览、帧率/曝光/增益设置与读回、实际帧率、启停、成对快照和保存YAML集中到一个本地控制台。目标是简单操作和便于科研采集。
+**最新正式版 [v0.4.0](https://github.com/zhu-chengdong/ArduStereo/releases/latest)**　[下载源码 ZIP](https://github.com/zhu-chengdong/ArduStereo/releases/download/v0.4.0/ArduStereo-0.4.0-source.zip) · [安装与构建](README.md#build-and-use) · [历史版本](https://github.com/zhu-chengdong/ArduStereo/releases)
 
-本次公开`v0.3.0-startup-init-fix1`受测候选，包版本0.3.0。采集实现、配置和测试与实机候选字节一致，只整理公开文档、CI及脱敏数值证据。原v0.2.2代码和Release保留。
+ArduStereo 在一个浏览器界面中提供 B0266 双目预览、参数调节和全分辨率 ROS 录包。完成构建并加载工作空间后，在一个终端运行 `roslaunch ardustereo viewer.launch`，然后在 Jetson 浏览器打开 `http://127.0.0.1:8765/`。
 
-## 已验证组合
+1. 点击 **Start camera**，确认左右画面和实际帧率。
+2. 修改帧率、曝光或模拟增益，点击 **Apply settings**，查看驱动读回值。
+3. 点击 **Start recording**，查看录制状态、时长和 ROS 主机上的文件路径。
+4. 点击 **Stop recording**，等界面显示 **Saved**。此时可以继续预览、再录一段，或点击 **Stop camera**。
 
-B0266双OV9281与Camarray HAT，Jetson Orin Nano 8GB，Ubuntu20.04、L4T35.5.0、5.10.192-tegra、ROS Noetic1.17.4、OpenCV4.5.4。默认为`/dev/video0`、GREY2560×800、原始参数20/681/100，左右各1280×800 mono8。其他载板、系统或相机没有据此自动获得兼容保证。
-
-## 构建与启动
-
-在已有依赖及正常相机驱动的独立Noetic工作空间中使用[主说明的构建命令](README.md#build-and-use)。本项目不提供内核驱动安装脚本，不要求升级JetPack、内核或ROS。
-
-```bash
-source ~/ardustereo_gui_ws/devel/setup.bash
-roslaunch ardustereo viewer.launch
-```
-
-打开`http://127.0.0.1:8765/`并点击“启动采集”。启动控制台本身不开流。检查左右图像后，一次改变一项参数，点击“应用参数”，确认读回并等待完整5秒统计窗。参数均为驱动原始整数，未换算为物理单位。
-
-“成对快照”保存同戳左右原始PGM、CameraInfo和校验值。“保存YAML”另存当前输入，不覆盖原配置，也不自动应用。“停止采集”释放本界面拥有的采集进程，可以再次启动；只关浏览器仍会继续采集。无界面运行仍是一条`roslaunch ardustereo stereo.launch`。
-
-自动会话记录保存配置与诊断，不连续保存图像。连续记录采用外部rosbag，GUI没有录制按钮。当前CameraInfo未载入物理标定，主机接收时间戳也不代表曝光时刻。
-
-## 实测结果与边界
-
-同一候选完成ARM构建、真实预览、曝光及增益往返、20↔10FPS、启停重启、8对快照和2份YAML。曝光/增益恢复后，固定区域左右均值相对基准变化均小于0.36%。
-
-界面开启的固定60分钟窗口为71,188完整五话题组，平均19.774FPS，保留133条低发布率WARN，最低固定5秒接收分箱11.4FPS，最大拼接图间隔602.9ms。窗口读取及格式故障计数为0。停止边界另有空读记录，没有称传感器零丢帧，也没有直接归因硬件。
-
-界面RSS首末5分钟均值从66.25增至71.93MiB，不能称已证明无内存泄漏。新旧相同输入各120秒均20FPS；该短测不证明长期稳定性优于旧节点。外部rosbag短录196组，关闭相机后以0.5倍实际回放，逐消息载荷一致。详细口径、失败尝试和数值复算见[验收证据](validation/README.md)。
-
-冻结界面仍有“硬件界面待验证”的旧开发提示和停止后旧时间戳文字；公开时没有修改受测实现，实际结果以验收记录为准。本次公开不含实验原始图像、bag、网络日志或论文未审定正文。
+v0.4.0 已在本地 ROS Noetic 上通过全分辨率合成输入录包及退出清理测试。本版界面录包在 Jetson Orin Nano 与 B0266 上的实机复验待完成。此前设备上的测试对应 [v0.3.0-startup-init-fix1](https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.3.0-startup-init-fix1)。[使用说明](docs/viewer.md) · [发布说明](RELEASE_NOTES.md) · [兼容性](docs/compatibility.md)

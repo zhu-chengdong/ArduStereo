@@ -5,6 +5,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
 import secrets
+import signal
 import sys
 import time
 from urllib.parse import urlsplit
@@ -44,6 +45,9 @@ def create_server(controller, web_root, port):
                 data = (web_root/'index.html').read_text(encoding='utf-8').replace('__TOKEN__',token)
                 return self.send(200,data.encode('utf-8'),'text/html; charset=utf-8')
             if path == '/api/state': return self.send(200,controller.state())
+            assets = {'/viewer.css': 'text/css', '/viewer.js': 'text/javascript'}
+            if path in assets:
+                return self.send(200, (web_root / path[1:]).read_bytes(), assets[path] + '; charset=utf-8')
             if path == '/api/preview': return self.send(200,controller.backend.model.preview())
             if path == '/favicon.ico': return self.send(204,b'','image/x-icon')
             return self.send(404,{'success':False,'message':'Not found'})
@@ -84,12 +88,15 @@ def main():
     model=PreviewModel(config)
     folder=Path(args.root).expanduser()/('viewer_'+time.strftime('%Y%m%dT%H%M%S')+'_'+secrets.token_hex(5))
     if args.demo:
-        backend=DemoBackend(model,folder); mode='UI DEMO — no ROS or camera'
+        backend=DemoBackend(model,folder); mode='Offline demo'
     else:
         from viewer_ros import RosBackend
         backend=RosBackend(model,folder,args.camera_ns)
-        mode='ROS SYNTHETIC — no camera' if config['source']=='synthetic' else 'CAMERA — hardware UI not yet validated'
+        mode='ROS synthetic' if config['source']=='synthetic' else 'B0266 camera'
     controller=Controller(config,folder,backend,mode)
+    def terminate(signum, frame):
+        raise SystemExit(128 + signum)
+    signal.signal(signal.SIGTERM, terminate)
     server=None
     try:
         server=create_server(controller,Path(args.package_dir)/'web',args.port)

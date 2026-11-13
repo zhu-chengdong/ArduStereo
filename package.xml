@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>ardustereo</name>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
   <description>Stereo acquisition with startup V4L2 controls for the reviewed B0266 camera.</description>
   <maintainer email="chengdong.zhu@york.ac.uk">Chengdong Zhu</maintainer>
   <license>MIT</license>
@@ -15,6 +15,7 @@
   <depend>diagnostic_msgs</depend>
   <depend>libopencv-dev</depend>
   <exec_depend>rospy</exec_depend>
+  <exec_depend>rosbag</exec_depend>
   <exec_depend>std_srvs</exec_depend>
   <test_depend>rostest</test_depend>
   <test_depend>rospy</test_depend>

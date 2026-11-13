@@ -11,6 +11,7 @@ from sensor_msgs.msg import Image
 from std_srvs.srv import Trigger
 from ardustereo.srv import GetControls, SetControls
 from viewer_core import OwnedCapture, BoundedCall
+from viewer_recording import BagRecorder
 
 
 class RosBackend:
@@ -18,6 +19,7 @@ class RosBackend:
         if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_/]*',namespace) or '//' in namespace or namespace.endswith('/'):
             raise ValueError('Invalid camera namespace')
         self.namespace='/'+namespace; self.model=model; self.calls=BoundedCall()
+        self.recorder = BagRecorder(root, self.namespace, self.running)
         rospy.init_node('ardustereo_viewer',disable_signals=True)
         self.launch=OwnedCapture(lambda path:['roslaunch','ardustereo','stereo.launch','camera_ns:='+namespace,'config:='+path],Path(root)/'launches')
         self.subscribers=[rospy.Subscriber(self.namespace+'/'+side+'/image_raw',Image,

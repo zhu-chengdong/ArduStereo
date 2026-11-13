@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ardustereo VERSION 0.3.0 LANGUAGES CXX)
+project(ardustereo VERSION 0.4.0 LANGUAGES CXX)
 
 option(ARDUSTEREO_BUILD_ROS "Build the ROS 1 node (requires catkin)" ON)
 option(ARDUSTEREO_BUILD_OPENCV "Build the OpenCV V4L2 source" ${ARDUSTEREO_BUILD_ROS})
@@ -48,7 +48,7 @@ if(ARDUSTEREO_BUILD_ROS)
   target_link_libraries(ardustereo_node PRIVATE ardustereo_ros)
   catkin_install_python(PROGRAMS scripts/experiment_tools.py scripts/viewer.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-  install(FILES scripts/session_store.py scripts/viewer_core.py scripts/viewer_ros.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  install(FILES scripts/session_store.py scripts/viewer_core.py scripts/viewer_ros.py scripts/viewer_recording.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
   install(TARGETS ardustereo_core ardustereo_opencv ardustereo_node
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

@@ -10,7 +10,8 @@ Read-only dependency checks in an existing sourced Noetic shell:
 command -v cmake
 command -v catkin_make
 pkg-config --modversion opencv4
-python3 -c 'import yaml, rospy'
+command -v rosbag
+python3 -c 'import yaml, rospy, rosbag'
 rospack find message_generation
 rospack find message_runtime
 rospack find camera_info_manager

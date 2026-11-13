@@ -22,6 +22,7 @@ jobs:
           source /opt/ros/noetic/setup.bash
           python3 tools/check_package.py
           python3 -B test/test_viewer.py
+          python3 -B -m unittest discover -s test -p test_recording.py -v
           mkdir -p /tmp/ardustereo_ws/src
           ln -s "$GITHUB_WORKSPACE" /tmp/ardustereo_ws/src/ardustereo
           cd /tmp/ardustereo_ws

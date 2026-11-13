@@ -1,5 +1,7 @@
 # Tested GUI candidate: evidence and reproduction
 
+The archived hardware results below correspond to v0.3.0-startup-init-fix1. On v0.4.0, pass `--implementation-root /path/to/fix1-checkout` to the verifier to check the historical implementation hashes alongside the archived data. CI supplies that checkout at its original commit.
+
 This directory publishes de-identified numeric evidence for `0.3.0-startup-init-fix1`, measured on2026-11-10. It is not an additional hardware run. Camera images, bags, device/network logs and private journals are excluded. Previous v0.2.2 data and its original strict no-WARN failure remain unchanged at [v0.2.2/validation](https://github.com/zhu-chengdong/ArduStereo/tree/v0.2.2/validation).
 
 ## Main results

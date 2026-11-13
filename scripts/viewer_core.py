@@ -250,15 +250,17 @@ class Controller:
         self.requested = dict(zip(CONTROL_KEYS, (int(config.get('frame_rate',config.get('synthetic_fps',20))), config.get('exposure',681), config.get('analogue_gain',100))))
         self.readback = None; self.operation = threading.Lock(); self.last_error = None
         self.closing = False
+        self.recorder = getattr(backend, 'recorder', None)
 
     def state(self):
         running=self.backend.running()
         launch=getattr(self.backend,'launch',None)
         exited=launch is not None and launch.process is not None and launch.process.poll() is not None
         return dict(self.backend.model.status(), running=running, mode=self.mode,
+                    recording=self.recorder.status() if self.recorder else {'available': False},
                     acquisition_exited=exited, exit_code=launch.process.returncode if exited else None,
                     requested=self.requested.copy(), readback=copy.deepcopy(self.readback) if running else None, busy=self.operation.locked(),
-                    last_error=self.last_error, log_root=str(self.root), version='0.3.0-dev')
+                    last_error=self.last_error, log_root=str(self.root), version='0.4.0')
 
     def perform(self, action, values=None):
         if self.closing: raise RuntimeError('Viewer is closing')
@@ -279,7 +281,11 @@ class Controller:
         # SIGINT. Finish that operation before stopping; reject any new starts.
         self.closing = True
         with self.operation:
+            if self.recorder:
+                self.recorder.stop(wait=True)
             result=self.backend.stop(); self.backend.model.clear(); self.readback=None
+            if self.recorder:
+                result['recording'] = self.recorder.status()
             self._record('viewer_exit',None,result)
             return result
 
@@ -289,6 +295,17 @@ class Controller:
             stream.flush()
 
     def _perform(self, action, values):
+        if action in ('record', 'finish'):
+            if not self.recorder:
+                raise RuntimeError('Recording requires a ROS session')
+            if action == 'record':
+                status = self.backend.model.status()
+                if not self.backend.running() or not status['preview_fresh']:
+                    raise RuntimeError('Wait for a live stereo preview before recording')
+                self.recorder.start()
+            else:
+                self.recorder.stop()
+            return {'success': True, 'recording': self.recorder.status()}
         if action == 'start':
             if self.backend.running(): raise RuntimeError('Acquisition already running')
             requested = controls(values); config = configuration_with_controls(self.base, requested)
@@ -296,6 +313,8 @@ class Controller:
             self.backend.start(path); self.requested = requested; self.readback = None
             return {'success':True,'message':'Starting acquisition','config':path}
         if action == 'stop':
+            if self.recorder:
+                self.recorder.stop(wait=True)
             result = self.backend.stop(); self.readback = None; self.backend.model.clear()
             message='Acquisition stopped using forced cleanup; inspect launch logs' if result.get('forced') else 'Acquisition stopped'
             return dict(result, success=result.get('stopped', False), message=message)

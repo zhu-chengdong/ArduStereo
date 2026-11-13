@@ -1,3 +1,7 @@
+# 0.4.0 — 2026-11-13
+
+English stereo preview and parameter readback, with in-browser ROS bag recording, time and file status. Each segment can be saved while preview continues. See [release notes](RELEASE_NOTES.md).
+
 # Public candidate0.3.0-startup-init-fix1 —2026-11-10
 
 Publish the exact tested GUI/startup-initialization candidate with current installation/use documentation, de-identified numeric evidence and hardware-free CI. No acquisition implementation changes during publication. All rate WARNs and original v0.2.2 history retained. See RELEASE_NOTES.md.

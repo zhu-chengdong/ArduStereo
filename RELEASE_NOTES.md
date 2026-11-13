@@ -1,22 +1,9 @@
-# ArduStereo v0.3.0-startup-init-fix1
+# ArduStereo 0.4.0 — Browser recording for ROS Noetic
 
-Public tested candidate, package version0.3.0. The B0266 user workflow now includes left/right preview, online raw frame-rate/exposure/gain controls and readback, actual rate display, start/stop/restart, paired snapshots and new YAML saving. Continuous recording remains an external rosbag step.
+Use a single launch to preview both views, adjust camera controls and record full-resolution stereo data. Click **Start recording** to create a ROS bag. Click **Stop recording** to save the segment and continue previewing. The console shows the recording time and the path on the ROS host. Stopping the camera or exiting the launch also finalizes the active segment.
 
-This release publishes the exact previously tested implementation including its startup-control initialization fix. Executable source, build files, tests, launch files and YAML are byte-identical to that candidate; documentation, CI and de-identified validation materials are updated for publication. Original `mono_cam_cpp`, earlier candidates and v0.2.2 history remain preserved.
+**Install** in a sourced ROS Noetic catkin workspace with the prerequisites listed in the [installation guide](https://github.com/zhu-chengdong/ArduStereo/blob/v0.4.0/docs/installation.md). Choose the source ZIP or clone the v0.4.0 tag.
 
-## Actual rig evidence
+**Validation.** Local Ubuntu 20.04 / ROS Noetic tests used 2560 × 800 synthetic input at a target of 20 FPS and the real rosbag recorder. Three segments closed by stopping recording, stopping capture and exiting launch contained 39, 40 and 40 messages on each of the four stereo topics. All three bags contained diagnostics and opened successfully. Seventeen viewer tests and three recorder fault tests passed. Jetson Orin Nano / B0266 validation of this version's integrated recorder is pending. The previous hardware qualification is documented with the v0.3.0-startup-init-fix1 release.
 
-- Jetson Orin Nano8GB, Ubuntu20.04/L4T35.5.0/kernel5.10.192-tegra, Noetic1.17.4/OpenCV4.5.4, B0266/Camarray HAT.
-- GREY2560×800 and raw20/681/100; real GUI control/restore checks,8 snapshot pairs and2 saved YAML files.
-- Preview-active3600s:71,188 complete five-topic groups,19.774444FPS,133 low-rate WARN samples, minimum fixed5s11.4FPS, maximum composite receive gap602.9ms. Zero read/format faults refers to that window only; shutdown-boundary empty reads remain in the original logs.
-- Capture mean CPU18.97% of one core/RSS50.98MiB; viewer mean CPU23.73%/RSS69.38MiB. Viewer first/last5min RSS66.25→71.93MiB; no leak-free claim.
-- Two natural GUI stops1.231/1.244s and restart checked. New/legacy GREY flows each120s/2400images at identical controls, not proof of better long-term reliability.
-- External short record/replay:196 complete stereo groups and equal serialized payloads at0.5× playback after camera stop.
-
-## Qualifications
-
-Rate warnings are retained, not equated with sensor-drop counts and not assigned an unverified hardware cause. This is one platform and one hour. No all-Jetson support, constant20Hz, physical calibration/sync bound or SLAM accuracy claim is made. The separate short-test network interruption, failed first legacy readiness attempt and corrected offline warning classification are disclosed in validation. They were not hidden by replacing raw logs.
-
-Known frozen UI display issues are the old hardware-validation-pending banner and the last timestamp text after stop. They do not justify claiming untested capabilities. Original camera images, raw bags, device/network logs and unreviewed manuscript text are not included in the public package. Public evidence is numeric and de-identified.
-
-See [validation](validation/README.md), [MIT license](LICENSE) and [citation](CITATION.cff). The previous [v0.2.2 release](https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.2.2) is unchanged, including its strict no-WARN failure.
+The attached source ZIP is generated from the tagged commit. SHA256SUMS.txt covers the source ZIP and the machine-readable release-acceptance.json.

@@ -1,14 +1,17 @@
 # ArduStereo
 
-A lightweight visual tool for **previewing, adjusting and acquiring images with an Arducam B0266 stereo camera** in a ROS research workflow.
+**Latest release · [v0.4.0](https://github.com/zhu-chengdong/ArduStereo/releases/latest)**　[Download source ZIP](https://github.com/zhu-chengdong/ArduStereo/releases/download/v0.4.0/ArduStereo-0.4.0-source.zip) · [Installation](#build-and-use) · [中文](README.zh-CN.md) · [Previous releases](https://github.com/zhu-chengdong/ArduStereo/releases)
 
-ArduStereo brings left/right preview, frame-rate/exposure/gain controls, readback, actual rate display, start/stop, paired snapshots and YAML saving into one local browser console. It uses the installed camera driver and OpenCV/V4L2; it does not replace the kernel driver or supply depth estimation or SLAM.
+Preview and tune an Arducam B0266 stereo camera and record full-resolution ROS bags in the same browser console. In a built and sourced ROS Noetic workspace, run `roslaunch ardustereo viewer.launch` and open `http://127.0.0.1:8765/`.
 
-**Public tested candidate:** [v0.3.0-startup-init-fix1](https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.3.0-startup-init-fix1). Package version is 0.3.0. The tested implementation is unchanged in this distribution; release documentation and de-identified numeric evidence are updated. The older [v0.2.2 release](https://github.com/zhu-chengdong/ArduStereo/releases/tag/v0.2.2) remains available with its original code and validation.
+1. Click **Start camera** and check both views.
+2. Change exposure, frame rate or analog gain, click **Apply settings** and confirm the driver readback.
+3. Click **Start recording**. The console shows the elapsed time and file path.
+4. Click **Stop recording** and wait for **Saved**. Keep previewing for the next segment or click **Stop camera**.
 
-[中文快速说明](README.zh-CN.md) · [Installation](docs/installation.md) · [Viewer](docs/viewer.md) · [Validation](validation/README.md)
+The integrated recorder passed local ROS Noetic tests with synthetic stereo input. A new recording run on Jetson / B0266 is pending. See [release notes](RELEASE_NOTES.md) and the [viewer guide](docs/viewer.md).
 
-## Tested rig
+## B0266 reference platform (hardware-tested on v0.3.0-startup-init-fix1)
 
 | Component | Verified configuration |
 |---|---|
@@ -29,7 +32,7 @@ In an existing Noetic environment with the [listed dependencies](docs/installati
 ```bash
 mkdir -p ~/ardustereo_gui_ws/src
 cd ~/ardustereo_gui_ws/src
-git clone --branch v0.3.0-startup-init-fix1 https://github.com/zhu-chengdong/ArduStereo.git ardustereo
+git clone --branch v0.4.0 --depth 1 https://github.com/zhu-chengdong/ArduStereo.git ardustereo
 cd ~/ardustereo_gui_ws
 source /opt/ros/noetic/setup.bash
 catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_EXECUTABLE=/usr/bin/python3
@@ -37,9 +40,9 @@ source devel/setup.bash
 roslaunch ardustereo viewer.launch
 ```
 
-Open `http://127.0.0.1:8765/`, then click **启动采集** (Start). Launching the console alone does not start the camera. On a remote host, use your existing SSH access to forward this loopback port, as described in the viewer guide.
+Open `http://127.0.0.1:8765/` and click **Start camera**. For a remote console, forward the loopback port as described in the viewer guide.
 
-Inspect both images, change one control and click **应用参数** (Apply), confirm readback, and observe the actual rate after a complete 5-second window. **成对快照** saves a raw stereo pair with metadata. **保存YAML** saves current inputs to a new file; it does not by itself apply them. **停止采集** releases the owned capture process and permits a fresh start. Exiting the viewer terminal also cleans up its owned process. Closing the browser alone leaves acquisition running.
+Inspect both images, change one control and click **Apply settings**, confirm readback, and observe the actual rate after a complete 5-second window. **Paired snapshot** saves a raw stereo pair with metadata. **Save YAML** saves current inputs to a new file; it does not by itself apply them. **Stop camera** releases the owned capture process and permits a fresh start. Exiting the viewer terminal also cleans up its owned process. Closing the browser alone leaves acquisition running.
 
 For headless acquisition with the same YAML defaults:
 
@@ -53,15 +56,14 @@ Normal acquisition needs no separate `roscore` or three `v4l2-ctl -c` setters. T
 
 Published interfaces include `/camera/left/image_raw`, `/camera/right/image_raw`, both `camera_info` topics, optional `/camera/image_raw`, and `/diagnostics`. Images share a host receive stamp from the packed input; this is not a sensor exposure-time or physical-sync measurement. Without supplied calibration, CameraInfo is uncalibrated (`K[0]=0`).
 
-Each acquisition writes configuration/diagnostic records under `~/ardustereo_sessions/`. Viewer actions, new YAML files and capture logs are under `~/ardustereo_gui/`. A paired snapshot saves fresh left/right PGM images, CameraInfo JSON and checksums. Automatic session records do **not** continuously write every image. Continuous recording uses external ROS tools, for example:
+Each acquisition writes configuration/diagnostic records under `~/ardustereo_sessions/`. Viewer actions, new YAML files and capture logs are under `~/ardustereo_gui/`. A paired snapshot saves fresh left/right PGM images, CameraInfo JSON and checksums. Automatic session records do **not** continuously write every image. Use **Start recording** and **Stop recording** in the console. For scripted capture the equivalent command is:
 
 ```bash
 rosbag record --duration=10 -O stereo.bag /camera/left/image_raw /camera/right/image_raw /camera/left/camera_info /camera/right/camera_info /diagnostics
 ```
 
-The GUI has no continuous-record button. Check storage before recording; raw image bags can be large.
 
-## Actual validation, including rate warnings
+## Earlier hardware validation (v0.3.0-startup-init-fix1)
 
 The same tested candidate completed ARM build, GUI control/restore checks, eight paired snapshots and two saved YAML files on the rig above. Exposure and gain restoration changed the fixed-region mean by less than 0.36% on either side in that fixed scene.
 
@@ -84,6 +86,5 @@ python3 validation/gui-fix1/verify_results.py
 
 ROS synthetic mode is available through `viewer_synthetic.yaml`; it never impersonates a physical camera. See [local test commands](docs/local_build.md).
 
-The frozen candidate UI still has a development banner saying hardware validation is pending, and may retain the last timestamp text after stop. These known display issues are preserved with the tested code; the validation status above comes from independent logs. See [release notes](RELEASE_NOTES.md).
 
 MIT licensed. Developed by Chengdong Zhu, University of York, from the `mono_cam_cpp` workflow used for earlier York-Tank collection. That historical collection used the earlier node; these are separate bench validations. See [provenance](THIRD_PARTY_NOTICES.md) and [software citation](CITATION.cff).

@@ -7,4 +7,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - run: python3 validation/gui-fix1/verify_results.py
+      - uses: actions/checkout@v4
+        with:
+          ref: a855223e8ffa010442d56dd850320bb1ae6d6aa7
+          path: historical-source
+      - run: python3 validation/gui-fix1/verify_results.py --implementation-root historical-source

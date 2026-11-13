@@ -1,5 +1,7 @@
 # Compatibility and evidence boundaries
 
+Version 0.4.0 was tested on local ROS Noetic with full-resolution synthetic stereo input and real rosbag output. On-device validation of its integrated recorder is pending.
+
 Verified on 2026-11-10 with `0.3.0-startup-init-fix1`:
 
 | Component | Tested value |

@@ -13,7 +13,7 @@ The server binds to loopback only. It does not change networking/firewall settin
 1. Start acquisition and check both images.
 2. Change one raw control, click Apply, then confirm readback. Requested values alone are not proof of image response.
 3. Wait at least one full5s window after a frame-rate change. Actual acquisition/publication rates are not the preview refresh rate.
-4. Save a paired snapshot or subscribe from a ROS recording/research tool.
+4. With both previews updating, click **Start recording**. **Recording** appears after the recorder opens the bag. The elapsed time and destination appear next to the control. Click **Stop recording** and wait for **Saved**. The camera keeps previewing and the next click starts a separate file.
 5. Save YAML to a new file for future runs; this saves inputs and does not itself apply them.
 6. Stop before releasing the camera; restart is supported. Exiting the viewer terminal cleans up its owned process. Closing just the browser does not stop acquisition.
 
@@ -21,7 +21,9 @@ The viewer refuses to take over a pre-existing external node in the same namespa
 
 Preview pairs by common stamp, caches at most8 pending stamps and encodes PNG at most5 times/s with max640px width per image. Full-resolution ROS outputs retain their own rate. Stale preview/diagnostics are not displayed as current live state. Encoding and subscriptions consume CPU; measured costs are in validation, not a claim of free preview.
 
-The viewer saves actions and per-capture logs under `~/ardustereo_gui/`. Acquisition metadata records are separately under `~/ardustereo_sessions/`. Snapshots contain fresh raw PGM images, CameraInfo and checksums. Continuous recording uses an external recorder; no GUI record button is implemented.
+Each segment is saved under the viewer session's `recordings/` directory on the ROS host. The recorder subscribes to both raw image and CameraInfo topics in the configured camera namespace and to `/diagnostics`. Stopping the camera or exiting the viewer terminal closes an open segment first. A recording error leaves the files and process logs available in the same directory. Replay a saved file with `rosbag play /path/to/segment.bag`.
+
+The viewer saves actions and per-capture logs under `~/ardustereo_gui/`. Acquisition metadata records are under `~/ardustereo_sessions/`. Paired snapshots contain raw PGM images, CameraInfo and checksums.
 
 ## Without a camera
 
@@ -39,4 +41,4 @@ Demo mode is explicitly marked. It has no ROS CameraInfo and therefore refuses a
 
 ## Tested status
 
-The fixed candidate completed real controls/restore, preview, snapshots/YAML and stops/restarts on the documented rig. The earlier generic statement that all hardware UI validation is pending is obsolete in the logs but remains in the frozen UI banner. Also, the last timestamp text may remain after stop; live image/rate state is cleared. See [validation](../validation/README.md) for measured results and qualifications.
+The English console places each requested value beside the last confirmed readback. Edits stay in the input until applied. Capture and publish rates below the images show the recent measurement window. The source label identifies the camera, ROS synthetic input or offline demo, and the status indicator follows diagnostics. The new page was tested offline. The [hardware validation](../validation/README.md) was performed with the earlier release.
